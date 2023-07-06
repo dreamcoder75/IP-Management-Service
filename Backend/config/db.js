@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // const config = require('config');
 // const db = process.env.mongoURI;
-const db = "mongodb://localhost:27017/IPFY_DB"
+const db = "mongodb+srv://Gregory:viwejf0509@test.lrdmqtf.mongodb.net/IPFY"
 
 const connectDB = async () => {
   try {
