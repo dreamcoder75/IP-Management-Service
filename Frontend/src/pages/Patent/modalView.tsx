@@ -1,26 +1,33 @@
 import ImagePreview from "./ImagePreview";
 import ImageUploader from './ImageUploader';
 import React, {useState} from "react";
+import axios from "axios";
+import { base_URL } from "../../constants/config";
+import { Store } from "react-notifications-component";
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css';
+// import 'animate.css';
+
 
 const modalView = (props : any) => {
     const [reference_no, setReference_no] = useState('');
-    const [patent_family, setPatent_family] = useState('');
+    const [patent_family, setPatent_family] = useState('PF01'); 
     const [application_no, setApplication_no] = useState('');
-    const [jurisdiction, setJurisdiction] = useState('');
+    const [jurisdiction, setJurisdiction] = useState('AU');
     const [invention_title, setInvention_title] = useState('');
     const [abstract, setAbstract] = useState('');
     const [earliest_Priority_Date, setEarliest_Priority_Date] = useState('');
-    const [patent_Application_Type, setPatent_Application_Type] = useState('');
-    const [complete_Application_Deadline, setComplete_Application_Deadline] = useState('');
+    const [patent_Application_Type, setPatent_Application_Type] = useState('Provisional');
+    const [complete_Application_Deadline, setComplete_Application_Deadline] = useState('1');
     const [international_Filing_Date, setInternational_Filing_Date] = useState('');
     const [pct_Application_No, setPCT_Application_No] = useState('');
     const [priority_Application, setPriority_Application] = useState('');
     const [wipo_Database, setWIPO_Database] = useState('');
-    const [national_Phase_Deadline, setNational_Phase_Deadline] = useState('');
+    const [national_Phase_Deadline, setNational_Phase_Deadline] = useState('30');
     const [convention_Deadline, setConvention_Deadline] = useState('');
-    const [status, setStatus] = useState('');
-    const [application_Phase, setApplication_Phase] = useState('');
-    const [published, setPublished] = useState('');
+    const [status, setStatus] = useState('Pending Filing');
+    const [application_Phase, setApplication_Phase] = useState('International Phase');
+    const [published, setPublished] = useState('Yes');
     const [publication_Date, setPublication_Date] =useState('');
     const [publication_No, setPublication_No] = useState('');
     const [inventors, setInventors] = useState('');
@@ -37,6 +44,12 @@ const modalView = (props : any) => {
     const [comments, setComments] = useState('');
     const [costs, setCosts] = useState('');
     const [invoices, setInvoices] = useState('');
+
+    const [inputPCTANdisabled, setInputPCTANdisabled] = useState(false);
+    const [inputPAdisabled, setInputPAdisabled] = useState(false);
+    const [inputWIPOdisabled, setInputWIPOdisabled] = useState(false);
+    const [inputPDdisable, setInputPDdisable] = useState(true);
+    const [inputPNdisable, setInputPNdisable] = useState(true);
 
     const handleReference_noChange = (data: any) => {
         setReference_no(data);
@@ -68,6 +81,9 @@ const modalView = (props : any) => {
 
     const handlePatent_Application_TypeChange = (data: any) => {
         setPatent_Application_Type(data);
+        setInputPCTANdisabled(data === "PCT");
+        setInputPAdisabled(data === "PCT");
+        setInputWIPOdisabled(data === "PCT");
     }
 
     const handleComplete_Application_DeadlineChange = (data: any) => {
@@ -84,6 +100,7 @@ const modalView = (props : any) => {
 
     const handlePriority_ApplicationChange = (data: any) => {
         setPriority_Application(data);
+        
     }
 
     const handleWIPO_DatabaseChange = (data: any) => {
@@ -98,7 +115,7 @@ const modalView = (props : any) => {
         setConvention_Deadline(data);
     }
 
-    const handleStatus = (data: any) => {
+    const handleStatusChange = (data: any) => {
         setStatus(data);
     }
 
@@ -108,6 +125,8 @@ const modalView = (props : any) => {
 
     const handlePublishedChange = (data: any) => {
         setPublished(data);
+        setInputPDdisable(data === "Yes");
+        setInputPNdisable(data === "Yes");
     }
 
     const handlePublication_DateChange = (data: any) => {
@@ -174,43 +193,138 @@ const modalView = (props : any) => {
         setInvoices(data);
     }
 
-    const [images, setImages] = useState<File[]>([]);
-    const [files, setFiles] = useState<File[]>([]);
+    const [images, setImages] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<FileList | null>(null);
+    const uploadfiledata = new FormData();
+    const uploadImagedata = new FormData();
 
     const handlefileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            //convert `FileList` to `File[]`
-            const _files = Array.from(e.target.files);
-            console.log(_files);
-            setFiles(_files);
-        }
+        setFiles(e.target.files);
     };  
 
     const handleimageSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            //convert `FileList` to `File[]`
-            const _files = Array.from(e.target.files);
-            setImages(_files);
-        }
+        setImages(e.target.files);
     };
 
-    // const handleNewPatent = (e: any) => {
-    //     e.preventDefault();
-    //     const data = {
-            
-    //     }
-    // }
+    const uploadfiles = files ? [...files] : [];
+    const uploadimages = images ? [...images] : [];
+
+    const handleNewPatent = async(e: any) => {
+        e.preventDefault();
+        uploadfiles.forEach(file => {
+            uploadfiledata.append(`files`, file, file.name);
+        });
+
+        uploadimages.forEach(image => {
+            uploadImagedata.append(`images`, image, image.name);
+        });
+
+        uploadfiledata.append('filenumber', uploadfiles.length.toString());
+        uploadImagedata.append('imagenumber', uploadimages.length.toString());
+
+        let filePathRes = await axios.post(`${base_URL}/fileupload/upload/files`, uploadfiledata);
+        
+        let imagePathRes = await axios.post(`${base_URL}/fileupload/upload/images`, uploadImagedata);
+
+        const data = {
+            Reference_no: reference_no,
+            Patent_family: patent_family,
+            Application_no: application_no,
+            Jurisdiction: jurisdiction,
+            Invention_title: invention_title,
+            Patent_Figures: imagePathRes.data.paths,
+            Abstract: abstract,
+            Earliest_Priority_Date: earliest_Priority_Date,
+            Patent_Application_Type: patent_Application_Type,
+            Complete_Application_Deadline: complete_Application_Deadline,
+            International_Filing_Date: international_Filing_Date,
+            PCT_Application_No: pct_Application_No,
+            Priority_Application: priority_Application,
+            WIPO_Database: wipo_Database,
+            National_Phase_Deadline: national_Phase_Deadline,
+            Convention_Deadline: convention_Deadline,
+            Status: status,
+            Application_Phase: application_Phase,
+            Published: published,
+            Publication_Date: publication_Date,
+            Publication_No: publication_No,
+            Inventors: inventors,
+            Official_Database: official_Database,
+            Applicant: applicant,
+            Applicant_address: applicant_address,
+            IP_Firm: ip_firm,
+            IP_Firm_Reference_No: ip_firm_ref_no,
+            Address_for_services: address_for_services,
+            Responsible_Attorney: responsible_Attorney,
+            Attachments: filePathRes.data.paths,
+            Patent_Anniversary: patent_Anniversary,
+            Next_Renewal: next_Renewal,
+            Deadlines: deadlines,
+            Comments: comments,
+            Costs: costs,
+            Invoices: invoices
+        }
+
+        console.log(data);
+
+        axios.post(`${base_URL}/patent/newPatents`, data)
+            .then(res =>{
+                console.log(res.status)
+                if(res.status == 200){
+                    
+                    Store.addNotification({
+                        title: 'Success',
+                        message: 'New Patent was Created Successfully',
+                        type: "success",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        width: 300,
+                        dismiss: {
+                          duration: 1000,
+                          onScreen: true
+                        }
+                      });
+                }
+
+            })
+            .catch(err => {
+                console.log(err.response.status)
+                if(err.response.status == 422) {
+                    Store.addNotification({
+                        title: 'Warning',
+                        message: 'This Patent is already created!',
+                        type: "warning",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        width: 300,
+                        dismiss: {
+                          duration: 1000,
+                          onScreen: true
+                        }
+                      });
+                }
+            })
+
+    }
 
     return(
         <>
-        <div className="fixed z-10 inset-0 overflow-y-auto bg-black/90">
+        
+        <div className="fixed z-10 inset-0 overflow-y-auto bg-black/90 app-container">
                                 <div className="flex items-baseline pt-20 pb-12 justify-center min-h-screen">
+                                <ReactNotifications/>
                                     <div
                                         className="fixed inset-0 bg-gray-500 bg-opacity-75"
                                         onClick={props.setToggleModal}
-                                    ></div>
+                                    >
+                                    </div>
 
                                     <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-1/2 dark:bg-boxdark">
+                                        
                                         <div className="p-6">
                                             <div className="text-3xl font-bold text-center">New Patent</div>
                                                 <div>
@@ -224,11 +338,12 @@ const modalView = (props : any) => {
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Patent Family</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handlePatent_familyChange(e.target.value)}}
-                                                        />
+                                                    <select id="Patent_Family" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handlePatent_familyChange(e.target.value)}}>
+                                                        <option defaultValue="PF01">PF01</option>
+                                                        <option value="PF02">PF02</option>
+                                                        <option value="PF03">PF03</option>
+                                                    </select>
+
                                                 </div>
 
                                                 <div className="py-2">
@@ -236,17 +351,18 @@ const modalView = (props : any) => {
                                                     <input
                                                         type="text"
                                                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        // disabled
                                                         onChange={(e) => {handleApplication_noChange(e.target.value)}}
                                                         />
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Jurisdiction</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleJurisdictionChange(e.target.value)}}
-                                                        />
+                                                    <select id="Patent_Family" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  onChange={(e) => {handleJurisdictionChange(e.target.value)}}>
+                                                        <option defaultValue="AU">AU</option>
+                                                        <option value="US">US</option>
+                                                        <option value="UK">UK</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="py-2">
@@ -262,18 +378,15 @@ const modalView = (props : any) => {
                                                     <label className="text-sm">Patent Figures</label>
                                                     <ImageUploader 
                                                         accept="image/png, image/jpeg"
-                                                        onChange={handleimageSelected}/>
-                                                    <ImagePreview images={images} />
+                                                        onChange={handleimageSelected}
+                                                        multiple/>
+                                                    <ImagePreview images={uploadimages} />
 
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Abstract</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleAbstractChange(e.target.value)}}
-                                                        />
+                                                    <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message... " onChange={(e) => {handleAbstractChange(e.target.value)}}></textarea>
                                                 </div>
 
                                                 <div className="py-2">
@@ -287,20 +400,29 @@ const modalView = (props : any) => {
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Patent Application Type </label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handlePatent_Application_TypeChange(e.target.value)}}
-                                                        />
+                                                    <select id="Patent Application Type" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handlePatent_Application_TypeChange(e.target.value)}}>
+                                                        <option defaultValue="Provisional">Provisional</option>
+                                                        <option value="PCT">PCT</option>
+                                                        <option value="Standard">Standard</option>
+                                                        <option value="Divisional">Divisional</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Complete Application Deadline</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleComplete_Application_DeadlineChange(e.target.value)}}
-                                                        />
+                                                    <select id="Complete Application Deadline" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handleComplete_Application_DeadlineChange(e.target.value)}}>
+                                                        <option defaultValue="1">1 month</option>
+                                                        <option value="2">2 months</option>
+                                                        <option value="3">3 months</option>
+                                                        <option value="4">5 months</option>
+                                                        <option value="4">6 months</option>
+                                                        <option value="4">7 months</option>
+                                                        <option value="4">8 months</option>
+                                                        <option value="4">9 months</option>
+                                                        <option value="4">10 months</option>
+                                                        <option value="4">11 months</option>
+                                                        <option value="4">12 months</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="py-2">
@@ -317,16 +439,17 @@ const modalView = (props : any) => {
                                                     <input
                                                         type="text"
                                                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        disabled = {inputPCTANdisabled}
                                                         onChange={(e) => {handlePCT_Application_NoChange(e.target.value)}}
                                                         />
                                                 </div>
-
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Priority Application</label>
                                                     <input
                                                         type="text"
                                                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        disabled = {inputPAdisabled}
                                                         onChange={(e) => {handlePriority_ApplicationChange(e.target.value)}}
                                                         />
                                                 </div>
@@ -336,17 +459,17 @@ const modalView = (props : any) => {
                                                     <input
                                                         type="text"
                                                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        disabled = {inputWIPOdisabled}
                                                         onChange={(e) => {handleWIPO_DatabaseChange(e.target.value)}}
                                                         />
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">National Phase Deadline</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleNational_Phase_DeadlineChange(e.target.value)}}
-                                                        />
+                                                    <select id="National Phase Deadline" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handleNational_Phase_DeadlineChange(e.target.value)}}>
+                                                        <option defaultValue="30">30 months</option>
+                                                        <option value="31">31 months</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="py-2">
@@ -360,30 +483,35 @@ const modalView = (props : any) => {
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Status </label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleStatus(e.target.value)}}
-                                                        />
+                                                    <select id="Status" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handleStatusChange(e.target.value)}}>
+                                                        <option defaultValue="Pending Filing">Pending Filing</option>
+                                                        <option value="Filed">Filed</option>
+                                                        <option value="Granted">Granted</option>
+                                                        <option value="Lapsed">Lapsed</option>
+                                                    </select>
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Application Phase</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleApplication_PhaseChange(e.target.value)}}
-                                                        />
+                                                    <select id="Application Phase" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handleApplication_PhaseChange(e.target.value)}}>
+                                                        <option defaultValue="International Phase">International Phase</option>
+                                                        <option value="National Phase">National Phase</option>
+                                                        <option value="Examined">Examined</option>
+                                                        <option value="XR Issued">XR Issued</option>
+                                                        <option value="Response Filed">Response Filed</option>
+                                                        <option value="Accepted">Accepted</option>
+                                                        <option value="Opposition">Opposition</option>
+                                                        <option value="Granted">Granted</option>
+                                                    </select>
                                                 </div>
 
                                                 
                                                 <div className="py-2">
                                                     <label className="text-sm">Published</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handlePublishedChange(e.target.value)}}
-                                                        />
+                                                    <select id="Published" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-boxdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={(e) => {handlePublishedChange(e.target.value)}}>
+                                                        <option defaultValue="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
                                                 </div>
 
                                                 
@@ -393,6 +521,7 @@ const modalView = (props : any) => {
                                                         type="date"
                                                         className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         onChange={(e) => {handlePublication_DateChange(e.target.value)}}
+                                                        disabled = {inputPDdisable}
                                                     />
                                                 </div>
 
@@ -403,6 +532,7 @@ const modalView = (props : any) => {
                                                         type="text"
                                                         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         onChange={(e) => {handlePublication_NoChange(e.target.value)}}
+                                                        disabled = {inputPNdisable}
                                                         />
                                                 </div>
 
@@ -489,42 +619,39 @@ const modalView = (props : any) => {
                                                     <label className="text-sm">Attachments</label>
                                                     <ImageUploader 
                                                         accept="file/*"
-                                                        onChange={handlefileSelected}/>
+                                                        onChange={handlefileSelected}
+                                                        multiple/>
                                                 </div>
                                                 <div className="py-2">
                                                     <label className="text-sm">Patent Anniversary</label>
                                                     <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        type="date"
+                                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         onChange={(e) => {handlePatent_AnniversaryChange(e.target.value)}}
-                                                        />
+                                                    />
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Next Renewal</label>
                                                     <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        type="date"
+                                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         onChange={(e) => {handleNext_RenewalChange(e.target.value)}}
-                                                        />
+                                                    />
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Deadlines</label>
                                                     <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                                        type="date"
+                                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         onChange={(e) => {handleDeadlinesChange(e.target.value)}}
-                                                        />
+                                                    />
                                                 </div>
 
                                                 <div className="py-2">
                                                     <label className="text-sm">Comments</label>
-                                                    <input
-                                                        type="text"
-                                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        onChange={(e) => {handleCommentsChange(e.target.value)}}
-                                                        />
+                                                    <textarea className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message... " onChange={(e) => {handleCommentsChange(e.target.value)}}></textarea>
                                                 </div>
 
                                                 <div className="py-2">
@@ -544,14 +671,14 @@ const modalView = (props : any) => {
                                                         onChange={(e) => {handleInvoicesChange(e.target.value)}}
                                                         />
                                                 </div>
-
-                                                <button
-                                                    // onClick={handleNewPatent}
-                                                    className="mt-4 bg-red-500 px-4 py-2 rounded border-solid border"
-                                                >
-                                                    Create Patent
-                                                </button>
-                                            
+                                                <div className="text-right">
+                                                    <button
+                                                        onClick={handleNewPatent}
+                                                        className="mt-4 bg-red-500 px-4 py-2 rounded border-solid border"
+                                                    >
+                                                        Create Patent
+                                                    </button>
+                                                </div>
 
                                             {/* <button className="">
                                                 Create Patent

@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const app = express();
-const patent = require('./routes/patent');
-const trademark = require('./routes/trademark');
-const design = require('./routes/design');
+const patent = require('./routes/api/patent');
+const trademark = require('./routes/api/trademark');
+const design = require('./routes/api/design');
+const fileupload = require('./routes/api/fileupload');
 const cors = require("cors");
 
 app.use(function(req, res, next) {
@@ -23,9 +24,10 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 connectDB();
 
-app.use('/patent', patent);
-app.use('/trademark', trademark);
-app.use('/design', design);
+app.use('/api/patent', patent);
+app.use('/api/trademark', trademark);
+app.use('/api/design', design);
+app.use('/api/fileupload', fileupload);
 
 app.listen(8000, () => {
     console.log(`Server Started at ${8000}`)
