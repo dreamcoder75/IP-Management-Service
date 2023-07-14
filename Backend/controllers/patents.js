@@ -1,7 +1,8 @@
 const Patent = require('../models/Patent');
-const { patch } = require('../routes/patent');
+const multer = require('multer');
 
-exports.newPatents = (req, res) => {
+exports.newPatents = async(req, res) => {
+    console.log(req.body);
     const newPatent = new Patent(req.body)
     Patent.findOne({Application_no : req.body.Application_no})
         .then(data => {
@@ -15,6 +16,7 @@ exports.newPatents = (req, res) => {
                         data
                     })
                 }).catch(err => {
+                    console.log(err)
                     res.status(400).json({
                         status : "Failed",
                         message : err
@@ -32,10 +34,10 @@ exports.getPatentsAll = async(req, res, next) => {
 
     try{
         const count = await Patent.countDocuments();
-        const {page = 1 , limit = 5} = req.query;
+        // const {page = 1 , limit = 5} = req.query;
         await Patent.find({ ...req.query })
-            .limit(limit * 1)
-            .skip((page - 1) * limit)
+            // .limit(limit * 1)
+            // .skip((page - 1) * limit)
             // .sort({ createdAt : -1 })
             .then(data => {
                 if(!data.length){
@@ -47,14 +49,31 @@ exports.getPatentsAll = async(req, res, next) => {
                     res.status(200).json({
                         status : "Success",
                         data,
-                        totalPages : Math.ceil(count / limit),
-                        currentPage : page
+                        // totalPages : Math.ceil(count / limit),
+                        // currentPage : page
                     })
                 }
             }).catch(err => res.status(400).json({ error : err}))
     } catch (err){
         next(err);
     }
+}
+
+exports.getPatentById = (req, res) => {
+    Patent.findById(req.params.id, req.body)
+        .then(data => {
+            if(!data){
+                res.status(400).json({
+                    status: "No data"
+                })
+            }
+            else{
+                res.status(200).json({
+                    status: "Success", 
+                    data
+                })
+            }
+        })
 }
 
 exports.updatePatents = (req, res) => {

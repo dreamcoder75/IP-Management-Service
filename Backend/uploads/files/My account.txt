@@ -1,0 +1,18 @@
+
+-----------------------------
+github token : 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
+git remote set-url origin https://github.com/dreamcoder75/LMS.git
+
+git filter-branch -f --env-filter "GIT_AUTHOR_NAME='dreamcoder75'; GIT_AUTHOR_EMAIL='dev.catchme0411@gmail.com'; GIT_COMMITTER_NAME='dreamcoder75'; GIT_COMMITTER_EMAIL='dev.catchme0411@gmail.com';"
+
+git push --force origin main
+-------------------------------
+
+
+
+vY3khhB7eQ5Hz1DmBzvGgfj6ySkYbA
+
+
+
+------------------------------
+netsh interface ipv4 set subinterface "Ethernet" mtu=1350 store=persistent

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const patentSchema = new mongoose.Schema({
     Reference_no : {
         type : String,
-        required : true,
+        // required : true,
     },
 
     Patent_family : {
@@ -14,27 +14,28 @@ const patentSchema = new mongoose.Schema({
 
     Application_no : {
         type : String,
-        required : true,
+        // required : true,
         unique:true
     },
 
     Jurisdiction : {
         type : String,
+        required : true,
         enum : ["AU", "NZ", "US", "EU", "UK"]
     },
 
     Invention_title : {
         type : String,
-        required : true
+        // required : true
     },
 
     Patent_Figures : {
-        type : String
+        type : Array
     },
 
     Abstract : {
         type : String,
-        required : true
+        // required : true
     },
 
     Earliest_Priority_Date : {
@@ -79,7 +80,7 @@ const patentSchema = new mongoose.Schema({
     Status : {
         type : String,
         required : true,
-        enum : ["Pending Filling", "Filed", "Granted", "Lapsed"]
+        enum : ["Pending Filing", "Filed", "Granted", "Lapsed"]
     },
 
     Application_Phase : {
@@ -89,9 +90,9 @@ const patentSchema = new mongoose.Schema({
     },
 
     Published : {
-        type : Number,
+        type : String,
         required : true,
-        enum : [1, 0]
+        enum : ["Yes", "No"]
     },
 
     Publication_Date : {
@@ -104,7 +105,7 @@ const patentSchema = new mongoose.Schema({
 
     Inventors : {
         type : String,
-        required : true
+        // required : true
     },
 
     Official_Database : {
@@ -113,12 +114,12 @@ const patentSchema = new mongoose.Schema({
 
     Applicant : {
         type : String,
-        required : true
+        // required : true
     },
 
     Applicant_address : {
         type : String,
-        required : true
+        // required : true
     },
 
     IP_Firm : {
@@ -138,7 +139,7 @@ const patentSchema = new mongoose.Schema({
     },
 
     Attachments : {
-        type : String
+        type : Array
     },
 
     Patent_Anniversary : {
@@ -159,12 +160,12 @@ const patentSchema = new mongoose.Schema({
 
     Costs : {
         type : Number,
-        required : true
+        // required : true
     },
 
     Invoices : {
         type : String,
-        required : true
+        // required : true
     }
 
 

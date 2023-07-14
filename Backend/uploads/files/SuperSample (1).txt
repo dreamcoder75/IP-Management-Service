@@ -1,0 +1,728 @@
+Hello Client. Thanks for your job posting. 
+
+I just read your job description very carefully and I'm very interested. It looks like you are looking for a full-stack engineer who has much experience in Node.Js, React.
+
+As a full-stack developer, I have much experience in React/Node/AWS.
+My last project is very similar project because the frontend is React and Backend is NodeJS. It's LMS(Learning Management System). I built this system from the scratch. So I'm fit for this particular project. I'm pretty sure I can accomplish your project successfully.
+https://app.fl4k.com
+
+Building state-of-the-art, easy-to-use, user-friendly websites and applications is truly a passion of mine and I am confident I would be an excellent addition to your organization. I always try for your project together with you. We will share ideas with each other and make more excellent results.
+
+Always I write clean code so that anyone can check and understand my codes easily, so no worries about that. As well as, I can make the deadline task by task as your requirement. I'm familiar with Jira/Trello/Git so that's no problem to use them if you want.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity.
+Thanks for your time and consideration. 
+
+Recently, I took part in the development of LMS(Learning Management System). I built the frontend using React/Chakra UI according to the Figma design and then deployed it using AWS Amplify.
+I think AWS Amplify is very excellent for frontend deployment and CI&CD.
+
+-----------------------------------Full Stack----------------------------
+Hello Client. Thanks for your job posting.
+
+I read your job detail very carefully and I'm very interested in your project. It looks like you are looking for experieced frontend developer who has much experience in Javascript/Typescript, UI/UX, HTML, CSS, JQuery.
+I think I have enough experience for your projects.
+
+I'm a full-stack developer who has much experience in frontend developement using various UI/CSS frameworks. I'm very familiar with HTML, CSS, Javascript/Typescript, JQuery, Bootstrap. I built the forntend of many project pixel perfectly according to the Figma design. 
+
+I'm pretty sure that I can show good result as your requirements.
+
+This is some websites I developed.
+uniclixapp.com
+app.fl4k.com
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrume workflow
+
+I hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+I look forward to discussing more detail about this opportunity.
+Thanks for your time and consideration.
+
+
+I used to dicuss something about the projects with team members like this. 
+- Which framworks and cloud services will be fit for our project?
+- About infrastructure of the projects.
+- Discuss the solution to save the time in developments.
+
+--------------------------REACT---------------------
+Hello, Hope you are safe from COVID.
+
+As a Senior Frontend Engineer, I'm very familiar with React, React Native, Next, Redux, Hook, Node/Express, PHP, GraphQL, RESTful API, HTML, CSS, tailwind css, Javascritpt/Typescript, and I've worked with React Material UI, FuseReact, AntDesign and etc.
+Also, I'm good at CI/CD, API Integration, Firebase and AWS services.
+
+Recently, I have focused on frontend development using React/Typescript following Figma Design. My last project is FL4K(LMS). It's Learning Management System to help students to learn the Spanish languages. I implemented the frontend UI pixel  perfectly using React/AntDesign according the Figma design. Also, I implemented the backend API using NodeJS and the CI/CD using AWS services and then automate all steps using Terraform. So I think I have enough experience to accomplish your project successfully.
+
+This is a website. 
+https://app.fl4k.com
+
+Building state-of-the-art, easy-to-use, user-friendly websites and applications is truly a passion of mine and I am confident I would be an excellent addition to your organization. I always try for your project together with you. We will share ideas with each other and make more excellent results.
+
+Always I write clean code so that anyone can check and understand my codes easily, so no worries about that. As well as, I can make the deadline task by task as your requirement. I'm familiar with Jira/Trello/Git so that's no problem to use them if you want.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity. 
+Best regard.
+
+=================Full Stack / AWS / CI&CD============================
+
+Hello, Thanks for your job posting. 
+
+I'm a full-stack developer who has much experience in Javascript/Typescript, AWS, Terraform, Java and Python.
+I'm very familiar with JavaScript/Typescript, Java, GraphQL, Git, ASP.NET, Docker, RESTful API, MySQL, MongoDB, PostgreSQL, AWS services. Also, I'm enough experience with Mobile Web App Development and I've developed many sites and apps for 3 years.
+
+I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+Recently, I worked on very similar project. I took part in the development of LMS(Learning Management System) and I implemented the frontend pixel perfectly using ReactJS/AntDesign(Typescript) according to the Figma design. Also, I implemented the backend API using NodeJS and the CI/CD using AWS services and then automate all steps using Terraform. 
+I worked as a full-stack and DevOps engineer.
+
+Please take a look at this website.
+app.fl4k.com
+Kids can learn the Spanish languages through this system.
+There are some types of users( Admin, Teacher, Student). Also there are various curriculums including questions and answers(Image, Text, Audio...).
+
+Configured the infrastructure like this.
+- Frontend: React, Backend Node. Database: MySQL
+- Use docker: Npm, Node, php, MySQL container,
+- GH Action: Detect changes and trigger the CodePipeline.
+- Most used AWS services for CI/CD: EC2, CodePipeline, S3 bucket, RDS(PostgreSQL), SQS, ECR, Cloud Watch...
+	● Deployed the server on EC2: Nginx server configuration
+	● CodePipeline (Source step: GH, Build Step: CodeBuild, Deploy Step: CodeDeploy)
+		The source step detects/outputs the changes and triggers the CodeBuild. CodeDeploy receives the output of the CodeBuild step and deploys the result to EC2.
+	● ECR for external cache: This improves the Build Step to reduce the time.
+	● Connect the CloudWatch service for deployment monitoring 
+	● Global accelerator for load balancing
+- Automate all steps for CI/CD were automated using Terraform, I can configure CI/CD easily by using terraform CLI.
+If you want, I can show and explain some parts of projects by running projects in my local.
+
+Hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+Look forward to discussing more detail about this opportunity.
+
+Thanks for your time and consideration.
+Best Regard!
+
+======================Payment Integration=============================
+
+Hello Client. Thanks for your job posting.
+
+I read your job detail carefully and I'm very interested in your project.
+It looks like you are looking for a developer who has much experiece in AWS and Payment integration.
+
+I'm a full-stack developer who has much experience in React/Node/AWS/Terraform. I'm very familiar with AWS API Gateway, Lambda, Serverless frameworks and payment integration.
+Also I'm good at CI/CD and Terraform.
+
+Recently, I took part in development of very similar project. It's Bookkeeping website that include the payment integration such as invoicing system using Stripe API, Paypal API and Plaid API. I implemented the frontend using React and developed the backend API. I used the serverless framework,AWS API Gateway,AWS Lambda,AWS RDS(PostgreSQL) for backend development.
+
+Also I implemented CI/CD using AWS services and Git and automate all steps using Terraform.
+
+If you want, I can show and explain some parts of my last projects at the meeting.
+Also, I can implement not only frontend but also backend and CI/CD.
+
+I hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+I look forward to discussing more detail about this opportunity.
+Thanks for your time and consideration.
+
+=============Node, serverless framework,AWS Lambda, API Gateway================
+"I am Full stack expert."
+
+Hello, Thanks for your job posting.
+
+I'm a full-stack developer who has much experience in Javascript, WordPress, Python, AWS and API integration.
+I'm very familiar with Express, Javascript/Typescript, Node.js, Ruby on Rails, RESTful API, MySQL, DynamoDB, PostgreSQL, AWS services, serverless frameworks. Also, I'm good at CI/CD using AWS services. 
+I have enough experience with various infrastructures using AWS services.
+
+In the meantime,  I used to various the backend API using NodeJS or serverless framework(AWS Lambda, API Gateway) and I used AWS RDS(MySQL, PostgreSQL) or NoSQL DB(MongoDB, DynamoDB).
+I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep-diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+Recently, I built an invoicing system like PayPal using Stripe API. I used the NodeJS and serverless frameworks as Ruby on Rails for the backend and React for the frontend. 
+If you want, I can show some parts of the projects at the meeting.
+
+I hope my experience will be helpful for your project. If you give more detail, I will help you as much as I can.
+Please let me know if you have any questions.
+
+My Skill Set
+✓ Languages: C#, JavaScript, Typescript, SQL, Python, PHP
+✓ Backend: ASP.NET, Node.js, Django, Laravel, Flask, Spring Boot
+✓ Frontend: WPF, React.js, Vue.js, Next, Vuex, Vuetify, Redux
+✓ Web: CSS 3 (including SASS and Stylus), HTML5, Bootstrap, Jquery, Tailwind CSS, Ruby on Rails
+✓ Databases: DynamoDB, MongoDB, PostgreSQL, MySQL, Redis
+✓ Cloud services: Amazon Web Service, Firebase
+✓ Version control: GIT, GitLab, Github, BitBucket
+✓ DevOps: CI/CD, Terraform, Serverless framework
+✓ Payment: Stripe, Plaid integration.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity. If you are interested to me, please contact me.
+
+Thanks for your time and consideration.
+Best Regard!
+-----------------PHP, Laravel---------------
+
+Hello, Thanks for your job posting.
+
+I'm a full-stack developer who has much experience in Javascript, PHP, Python, AWS and API integration.
+I'm very familiar with Express, Javascript/Typescript, PHP, Laravel, CodeIginter, Symfony, RESTful API, MySQL, DynamoDB, PostgreSQL, AWS services, serverless frameworks. Also, I'm good at CI/CD using AWS services. 
+I have enough experience with various infrastructures using AWS services.
+
+In the meantime, I've built many PHP projects using various PHP frameworks like Laravel, Symfony, CakePHP4,  etc and I used React, Vue for Frontend development.
+And also, I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep-diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+I hope my experience will be helpful for your project. If you give more detail, I will help you as much as I can.
+Please let me know if you have any questions.
+
+My Skill Set
+✓ Languages: C#, JavaScript, Typescript, PHP, SQL, Python, 
+✓ Backend: ASP.NET, Node.js, Django, Laravel, CodeIgniter, Symfony,  Flask, Spring Boot
+✓ Frontend: WPF, React.js, Vue.js, Next, Vuex, Vuetify, Redux
+✓ Web: CSS 3 (including SASS and Stylus), HTML5, Bootstrap, Jquery, Tailwind CSS, Ruby on Rails
+✓ Databases: DynamoDB, MongoDB, PostgreSQL, MySQL, Redis
+✓ Cloud services: Amazon Web Service, Firebase
+✓ Version control: GIT, GitLab, Github, BitBucket
+✓ DevOps: CI/CD, Terraform, Serverless framework
+✓ Payment: Stripe, Plaid integration.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity. If you are interested to my experiences, please contact me.
+
+Thank you for your time and consideration.
+Best regards!
+
+
+------------ Vue frontend -------------------
+Hello, Thanks for your job posting. 
+
+I just read your job description very carefully and I'm very interested in your suggestion. It looks like you are looking for a developer who has much experience in VueJs and Laravel
+
+As a full-stack developer, I have much experience in Vue/React/Node/AWS/CI&CD.
+In the meantime, I have built the frontend of many web projects using Vue/NuxtJS according to the Figma design. I used to build a backend using NodeJS/Express.
+
+And also, I'm very familiar with Vuex, Vuetify, HTML, SCSS, javascript/typescript, Tailwind CSS, AWS services and I have strong experience with Mobile development using Vue.js(Ionic framework, Vue native, ...).
+
+Recently, I took part in the development of LMS(Learning Management System). I worked as a not only frontend, but also devops engineer. I built the frontend and some backend API and implemented the CI/CD using Github and AWS. Then I automated all steps using Terraform.
+
+I think I have enough experiece to accomplish your project successfully. 
+I hope my experience will be helpful for your project. If you give more detail, I will help you as much as I can.
+
+Building state-of-the-art, easy-to-use, user-friendly websites and applications is truly a passion of mine and I am confident I would be an excellent addition to your organization. I always try for your project together with you. We will share ideas with each other and make more excellent results.
+
+Always I write clean code so that anyone can check and understand my codes easily, so no worries about that. As well as, I can make the deadline task by task as your requirement. I'm familiar with Jira/Trello/Git so that's no problem to use them if you want.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity.
+
+Thank you for time and consideration.
+Best Regard!
+
+
+==================React/Node/AWS============
+Hello, Thanks for your job posting. 
+
+I just read your job description very carefully and I'm very interested in your suggestion. It looks like you are looking for a full-stack engineer who has much experience in React, NodeJs and AWS.
+
+As a full-stack developer, I have enough experiece to accomplish your project successfully.
+I'm very familiar with React, Redux, Hook, CSS, Material UI, Chakra UI, JavaScript/Typescript, Express, RESTful API, AWS services.
+
+- Recently, I have focuse on web developement using React/Next/Typescript and I already implemented frontend of many websites pixel perfectly according to the Figma Design. and built backend API using JS frameworks. 
+- I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep-diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+app.fl4k.com
+uniclixapp.com
+
+If you give a chance, I think I will be able to show good result.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity.
+
+Thank you for your time and consideration. 
+
+
+===================React/Blockchain=================
+
+Hello, Hope you are safe from COVID.
+
+I've seen you are in need of a frontend engineer who has much experience in React and Blockchain technology. I think I have enough knowledge and experience to accomplish your project successfully.
+
+As a full-stack engineer, I have much experience in frontend development for blockchain projects.
+I'm very familiar with React, HTML, CSS, Javascript, Typescript, Python, Web3 Integration, Solidity, Solana, Rust, Cryptocurrency, MUI, Bootstrap, Tailwind CSS, Styled-components...
+
+I used to build the various frontend UI pixel perfectly using React according to the Figma design. Also I have good experience in blockchain project such as NFT, DEX website... and Crypto Wallet.
+If you give a design such as Figma, I'm pretty sure I can implement the UI as your reqirements.
+
+Please let me know if you have any questions. Looking forward to hearing from you. 
+Thank you. Regards.
+
+==========================frontend ==================
+Hello, Thanks for your job posting.
+
+As explained on my profile, I have strong experience in frontend developement. Especeially React is my main skill. In the meantime, I have built various web projects such as LMS, NFT, DEX...
+In most project, I have built the frontend pixel perfectly using React/Next.js accordig to the Figma design. so I already have deep knowledge about React and I'm very familiar with Redux, Hook, API Integration, Web3 Integration, SCSS, SFCC,  JavasScript/Typescript, MUI, Chakra UI, Bootstrap, Tailwind CSS, some animation and effects.
+
+Recently, I took part in the development of LMS(Learning Management System). I worked as a not only frontend, but also devops engineer. I built the frontend and some backend API and implemented the CI/CD using Github and AWS. Then I automated all steps using Terraform.
+This is Website 
+app.fl4k.com
+
+And also I've designed web sites using WordPress, Webflow, frame.io and Bubble.io platfom.
+
+If you give me a chance, I will be able to show good result on Frontend side. No worry about timezone.
+
+Skills:
+● ReactJS, Sveltejs, VueJS, NextJS, NuxtJS, Angular AngularJS, ThreeJS
+● Redux, Redux-saga, Redux-thunk, Hook, React-tracked library
+● JavaScript, Typescript, Java, Python, ASP.NET
+● RESTful API, GrapQL
+● MySQL, MongoDB, PostgreSQL, Oracle, DynamoDB
+● HTML, HTML5, tailwind CSS, CSS, SCSS, Sass, WebGL, WordPress
+● Bootstrap, Tailwind CSS, UIkit, Styled-component
+● Material UI, Chakra UI, Semantic UI, Vuetify
+● Firebase, AWS
+● Github, GitLab, BitBucket
+● Jira, Trello, Slack, Agile and Scrum methology
+
+Please let me know if you have any questions. I look forward to discussing more details with you.
+
+Thanks for your time and consideration.
+Best regards!
+
+============ React/Node/AWS Website solution ====
+My Skill Set
+✓ Languages:  JavaScript, Typescript,  Python, C#, SQL, PHP
+✓ Frontend: React.js, Vue.js, Angular, Next, Vuex, Vuetify, Redux,
+✓ Backend: Node.js/Express, Django, Laravel, Spring Boot, .NET framework, ASP.NET, RESTful API, 
+✓ Databases: DynamoDB, MongoDB, PostgreSQL, MySQL, Redis
+✓ AWS: Amplify, Cognito, Lambda, API Gateway, EC2, S3 bucket, ECR, CloudFront, CodeBuild, CodeDeploy, CodePipeline, DynamoDB, RDS
+✓ Web: UI/UX, CSS 3, HTML5, Bootstrap, JQuery, Tailwind CSS, Material UI, Chakra UI
+✓ Google cloud services, Firebase
+✓ Payment Integration: Stripe API,  Plaid API.
+✓ Version control: GIT, GitLab, Github, BitBucket
+✓ CI/CD, Terraform, Serverless framework
+
+========================Angular===================================
+
+Hello Client. Thanks for your job posting.
+
+I read your job detail very carefully and I'm very interested in your project. It looks like you are looking for professional Angular + PHP/Symfony developer who has enough experiences.
+I think I have enough experience for your projects.
+
+I'm a full-stack developer who has much experience in frontend developement using Angular and various UI/CSS frameworks. I'm very familiar with HTML, CSS, Javascript/Typescript in Frontend, and NodeJS, PHP, Python and etc in Backend. In the meantime, I used to various the backend API using NodeJS or serverless framework(AWS Lambda, API Gateway) and I used AWS RDS(MySQL, PostgreSQL) or NoSQL DB(MongoDB, DynamoDB).
+I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep-diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+I'm pretty sure that I can show good result as your requirements.
+
+This is some websites I developed.
+uniclixapp.com
+app.fl4k.com
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrume workflow
+
+I hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+Thank you very much.
+Best Regard!
+
+I look forward to discussing more detail about this opportunity.
+Thanks for your time and consideration.
+
+=============================================================================
+
+Hello, thanks for your job posting.
+
+I've just read your job description and I am interested in your suggestion. It looks like that you are finding experienced Frontend developer.
+In most project, I have built the frontend pixel perfectly using React/Typescript accordig to the Figma design. so I already have deep knowledge about React and I'm very familiar with Redux, Hook, API Integration, Web3 Integration, SCSS, JavasScript/Typescript, MUI, Chakra UI, Bootstrap, Tailwind CSS, some animation and effects.
+
+Recently, I took part in the development of LMS(Learning Management System). I worked as a not only frontend, but also devops engineer. I built the frontend and some backend API and implemented the CI/CD using Github and AWS. Then I automated all steps using Terraform.
+And also I've design web sites using WordPress, Webflow, Bubble.io platfom.
+
+If you give me a chance, I will be able to show good result on Frontend side. No worry about timezone.
+I have some question.
+When do you finish the design? When can I start working?
+
+If you are interesting in my proposal, please contact me.
+
+
+==============================================================================
+
+Hello Client. Thanks for your job posting.
+
+I'm a full-stack developer who has much experience in Javascript, Python, AWS and API integration.
+I'm very familiar with Express, Javascript/Typescript, RESTful API, MySQL, DynamoDB, PostgreSQL, AWS services, serverless frameworks. Also, I'm good at CI/CD using AWS services. 
+In Javascript, my main skills are React, Vue, AngularJS and Ruby on Rails.
+
+Recently, I took part in the development of LMS(Learning Management System). In this projects, I worked as a not only frontend, but also devops engineer. I built the Client-Side Frontend using React and some backend API and Server-Side using Ruby on Rails and AWS. Then I automated all steps using Terraform.
+
+I hope my experience will be helpful for your project. If you give more detail, I will help you as much as I can.
+Please let me know if you have any questions.
+
+My Skill Set
+✓ Languages: C#, JavaScript, Typescript, SQL, Python, PHP, WordPress
+✓ Backend: ASP.NET, Node.js, Django, Laravel, Flask, Spring Boot
+✓ Frontend: WPF, React.js, Gatsby.js, Vue.js, Next, Vuex, Vuetify, Redux
+✓ Web: CSS 3 (including SASS and Stylus), HTML5, Bootstrap, Jquery, Tailwind CSS, Ruby on Rails
+✓ Databases: DynamoDB, MongoDB, PostgreSQL, MySQL, Redis
+✓ Cloud services: Amazon Web Service, Firebase
+✓ Version control: GIT, GitLab, Github, BitBucket
+✓ DevOps: CI/CD, Terraform, Serverless framework
+✓ Payment: Stripe, Plaid integration.
+
+My Working Style.
+● Full-time developer (40+ hours per week)
+● Working in your time zone & Good communication.
+● Update the result daily, every week
+● Keep on-Time, on-Budget
+● 100% ongoing satisfaction with your project.
+● Provide the result with high quality
+● Lifetime Free Bug-Fix support after completion
+● Agile Scrum workflow
+
+I look forward to speaking with you about this opportunity. If you are interested to me, please contact me.
+
+Thank you for your time and consideration.
+Best regards!
+
+==============================================================
+
+Hello, thanks for your job posting.
+
+I've read your project description, and I'm very interested in your job. :)
+Coding HTML, CSS, and JS since 2014 with a Master's degree in computer application(MCA), my experience in adapting web technology to meet customer needs is extensive. I enjoy bringing value to clients via eCommerce, B2B, SaaS solutions, legacy integrations, and optimized JavaScript-driven applications.
+My focus has been directed towards JavaScript libraries such as React, Gatsby.js Ember.js, Next.js, and Node.js. Throughout my career, I've worked on multiple agile teams as a core developer and am now interested in working on anything JavaScript-related.
+I'm specializing in React, React Hooks, Next.js, SSR, SSG, and Node.js.
+
+Followings are my full stack skill sets:
+✔️Front-End
+- React/Next JS, TypeScript, Redux, Restful API, React router, Material-UI/Tailwind CSS(React relevant skills)
+- Ember.js, Vue.js, Angular, Gatsby.js, Meteor.js, Next.js, Flutter, Ionic framework
+- HTML 5, CSS 3, Bootstrap5, JQuery, JavaScript (basic skills)
+- Material-UI, TailWind CSS, Bluprint JS (for a smart front-end UI)
+- Figma, Adobe XD, AI (familiar with these design files)
+✔️ Back-End
+- Python, Django, Flask, Docker
+- Ruby on Rails
+- Golang
+- Elixir, Phoneix
+- Java
+- Node, Nest, Express JS (for a server)
+- Laravel
+- Socket.io, WebSocket (real-time data transfer)
+- promise, middleware, JWT, cors
+✔️ Database
+- MySQL, PostgreSQL, GraphQL
+- MongoDB
+- Google Firebase
+- AWS Lambda, DynamoDB
+✔️ Deployment
+- AWS EC2 : NGINX expert
+
+I'd like to discuss more in details over the chat.
+Looking forward to hearing from you.
+Best Regard!
+
+================================blockchain==============================
+
+Hello, thanks for your job posting.
+
+I am a senior Blockchain developer, starting from 2014 began proactively working on blockchain related projects as a Blockchain Developer.
+My experiences range from creating both front-end blockchain applications to backend architecture design and implementation, smart contract development, testing, auditing, and development for Fintech and other industries that need the power of decentralization, tokenization, and smart contracts.
+
+This is my skills:
+-Blockchain fields:
+* PancakeSwap & UniSwap
+* Custom Blockchain and Dapps, Defi, DEX, DAO, Swap, Liquidity Pool
+* Cryptocurrency Fork, Yield-Farming, Staking, LaunchPad, Lottery, Referral
+* Cryptocurrencies. NFT marketplace,
+* Smart Contract (ERC20, BEP20, ERC721, ERC1155)
+* Solidity, Truffle, OpenZeppelin, Golang, Rust, web3.js, ether.js
+* Generating artworks and metadata
+* Deploying artworks and metadata onto ipfs/pinata
+* Creating smart contract and deploying onto Ethereum
+* Developing landing page
+* Developing minting page and integrating with the contract
+* Configuring start date and timer
+* Configuring presale date, whitelist and reveal
+* Opensea configuration: registration, integrating placeholder
+
+- Web fields:
+* HTML5, CSS3, Bootstrap, jQuery, Tailwind CSS, Material UI, Ant Design, Figma.
+* JavaScript, TypeScript, Reac.js, Next.js, Redux, Hooks, Context, Vue.js.
+* Node.js, Express.js, Nest.js, PHP, CodeIgniter, Laravel, Python
+* Axios, GraphQL, Hasura, JWT, Auth0
+* MongoDB, PostgreSQL, MSSQL Server, MySQL, MariaDB
+* Figma, XD, Zeplin, Invision to React & HTML
+* Git, Github, Gitlab, BitBucket, Jira, Trello
+
+I always try to provide a reliable, flawless service to my customers.
+I can start immediately, and I can work over 40 hours per week in your regular time zone.
+Looking for a long-term relationship.
+
+Thank you.
+
+========================================================================
+
+Dear Clients! I've read your project description, and I'm very interested in your job
+In especially the favorite skills of mine are WebRTC and video/audio streaming skills, and I had done in my duty for the features such as VOIP, SMS, IVR, video/audio streaming, video conferencing, and video/audio chatting in the above projects.
+So I had got deep knowledge about technologies such as RTMP, RTSP/RTP, HLS, SRT, WebRTC, and many platforms and media servers such as Plivo, Wowza, Kurento, Jitsi, Asterisk, Mediasoup.
+Also, I had experienced video processing with FFmpeg. During developing the web and streaming projects, I had also used the AWS cloud services including IVS, Kinesis, EC2, Lambda, Media Converter, S3, DynamoDB, and CloudFormat.
+
+I use GIT every day and I work with GitHub/Gitlab and JIRA/Asana/Trello every day.
+I can start immediately, and I am available 160+ hours per month in your regular time zone.
+
+Looking for a long-term relationship.
+
+Thank you.
+==========================================================================
+
+Hi! Thanks for your job posting.
+
+I've read your project description, and I'm very interested in your job. :)
+Coding HTML, CSS, and JS since 2014 with a Master's degree in computer application(MCA), my experience in adapting web technology to meet customer needs is extensive. I enjoy bringing value to clients via eCommerce, B2B, SaaS solutions, legacy integrations, and optimized JavaScript-driven applications.
+My focus has been directed towards JavaScript libraries such as React, Next.js, and Node.js. Throughout my career, I've worked on multiple agile teams as a core developer and am now interested in working on anything JavaScript-related.
+I'm specializing in React, React Hooks, Next.js, SSR, SSG, and Node.js.
+
+Strong Skills & Experiences:
+- HTML/CSS/JavaScript/Typescript/Python/PHP/SQL
+- React/Redux/Redux-Saga/Redux-Thunk/MobX/Flux/React Hooks/Next.js/Strapi/Jamstack
+- Vue.js/Angular/Vue native/Vuex
+- SSR/SSG/SEO/Performance Optimization/Webpack4, 5
+- Node.js/Socket.io/Express.js/Nest.js/Django/Flask/Laravel/Java
+- Material UI/Ant Design/TailwindCSS/Semantic UI/BootStrap/Styled Components
+- Rest API/GraphQL/API Integration
+- MongoDB/PostgreSQL/MySQL/DynamoDB/RDS
+- Auth0/OAuth2/JWT/AWS Cognito authentication
+- AWS Services: Amplify/EC2/S3/Lambda/Cognito/API Gateway/CloudFront/CloudFormation/SQS/SNS/AppSync
+- AWS, GCP, Heroku, Vercel, Firebase, Docker, Kubernetes for cloud hosting
+- Jest, Cypress, Mocha, Storybook for unit test
+
+I have expertise in AWS tools such as AWS Amplify, Cognito, Elastic Beanstalk, EC2, S3.
+Also, I'm familiar with management tools such as Git/Github/Bitbucket, JIRA, Bugherd, Trello.
+
+I always aim to make sure my clients are 100% happy, so I appreciate the importance of quality code as well as the need to meet scheduling demands.
+Hopefully, we can discuss the project in more detail.
+
+Looking forward to hearing from you soon.
+
+Regards, thanks.
+
+===============================Backend===================================
+
+Hello, thank you for sharing your job.
+I am really interested in this opportunity and really excited since it seems to be a great fit for my skillsets as follows.
+I have 5+ years of experience with Web developmenet using Ruby on Rails.
+
+Summary
+Qualified Software Engineer with 8+ years of hands-on IT experience with main emphasis on full-stack development.
+Participated in development of UIs, APIs, services, components, modules, staff training, writing tests, support and maintenance of existing codebase. 
+
+Technical Skills
+● Efficient Algorithm design
+● Programming Languages: Ruby, Elixir, Python, Golang, JavaScript, TypeScript, PHP, Java, C#, Golang
+● Frontend Libraries/Frameworks: React/Next.js, VueJS, Angular, React Native, SCSS, Jquery, TailwindCSS, Bootstrap, MUI, Semantic-UI
+● Backend Frameworks: Node.js, Express, Laravel, Django, Spring Boot
+● Development kits: Visual Studio Code, Sublime Text, Goland, Ant, Maven, Postman
+● Data access:  MongoDB, Postgres, MySQL, JPA, Oracle, AWS DynamoDB
+● Clouding: AWS(EKS, Amplify, Lambda, EC2, SQS, S3), GCP
+● Testing: Unit Testing(using Testing Package/Testify), Integration Test
+● Approach: Agile, OOP, SCRUM
+● DevOps & CI/CD: Docker, Kubernetes, GitHub Actions, Jenkins, Vercel
+● Version control: GitHub, GitLab, Bitbucket, Subversion(SVN)
+● Source management: Jira, Trello, Asana
+● Communication: Slack, Discord, Telegram, Skype
+● Object-oriented programming
+● Theoretical aspects of functional programming
+● Design patterns
+● Excellent communication and teamwork skills
+
+Please feel free to contact me if you are interested in.
+Thank you.
+
+=====================================Python Django + React=====================================
+
+
+Hello, Thanks for your job posting. 
+
+I am a Professional Python Engineer who has 7+ years of experience in Python technology.
+I am very specialized to working Data Analysis technology using libraries like TesorFlow, PyTorch and Apache Spark and Python Web Backend Development using Python Web frameworks like Django, Flask, FastAPI.
+
+Especially, I am very good experience with Python Web development using Python Djang, Flask, RabbitMQ, Celery, Reddis and the other various kind of Python frameworks and libraries.
+And also, I've worked the various DevOps development using Python and AWS and microservices.
+I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+Recently, I worked on very similar project. I took part in the development of LMS(Learning Management System) and I implemented the frontend pixel perfectly using ReactJS/AntDesign according to the Figma design. Also, I implemented the backend server and API using Python Django and FastAPI and the CI/CD using AWS services and then automate all steps using Terraform. 
+I worked as a full-stack and DevOps engineer.
+
+Please take a look at this website.
+app.fl4k.com
+Kids can learn the Spanish languages through this system.
+There are some types of users( Admin, Teacher, Student). Also there are various curriculums including questions and answers(Image, Text, Audio...).
+
+Configured the infrastructure like this.
+- Frontend: React, Backend Python Django. Database: SQLite
+- Use docker: Django, FastAPI, MySQL container,
+- GH Action: Detect changes and trigger the CodePipeline.
+- Most used AWS services for CI/CD: EC2, CodePipeline, S3 bucket, RDS(PostgreSQL), SQS, ECR, Cloud Watch...
+	● Deployed the server on EC2: Nginx server configuration
+	● CodePipeline (Source step: GH, Build Step: CodeBuild, Deploy Step: CodeDeploy)
+		The source step detects/outputs the changes and triggers the CodeBuild. CodeDeploy receives the output of the CodeBuild step and deploys the result to EC2.
+	● ECR for external cache: This improves the Build Step to reduce the time.
+	● Connect the CloudWatch service for deployment monitoring 
+	● Global accelerator for load balancing
+- Automate all steps for CI/CD were automated using Terraform, I can configure CI/CD easily by using terraform CLI.
+If you want, I can show and explain some parts of projects by running projects in my local.
+
+Hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+Look forward to discussing more detail about this opportunity.
+
+Thanks for your time and consideration.
+Best Regard!
+
+
+
+=====================================Python Django + Angular=====================================
+
+
+Hello, Thanks for your job posting. 
+
+I am a Professional Python Engineer who has 7+ years of experience in Python technology.
+I am very specialized to working Data Analysis technology using libraries like TesorFlow, PyTorch and Apache Spark and Python Web Backend Development using Python Web frameworks like Django, Flask, FastAPI.
+
+Especially, I am very good experience with Python Web development.
+And also, I've worked the various DevOps development using Python and AWS and microservices.
+I had been creating, hosting, designing, developing, deploying, and maintaining some cloud services on AWS by using Amplify, EC2, lambda, Cognito, API Gateway, Cloud Front, AppSync, and DynamoDB, and been deep diving into DevOps practices and principles, and have rich experience in managing scalable infrastructure on Amazon Web Services, Linux, Docker, Serverless.
+
+Recently, I worked on very similar project. I took part in the development of LMS(Learning Management System) and I implemented the frontend pixel perfectly using Angular according to the Figma design. Also, I implemented the backend server and API using Python Django and FastAPI and the CI/CD using AWS services and then automate all steps using Terraform. 
+I worked as a full-stack and DevOps engineer.
+
+Please take a look at this website.
+app.fl4k.com
+Kids can learn the Spanish languages through this system.
+There are some types of users( Admin, Teacher, Student). Also there are various curriculums including questions and answers(Image, Text, Audio...).
+
+Configured the infrastructure like this.
+- Frontend: Angular Backend Python Django. Database: SQLite
+- Use docker: Django, FastAPI, MySQL container,
+- GH Action: Detect changes and trigger the CodePipeline.
+- Most used AWS services for CI/CD: EC2, CodePipeline, S3 bucket, RDS(PostgreSQL), SQS, ECR, Cloud Watch...
+	● Deployed the server on EC2: Nginx server configuration
+	● CodePipeline (Source step: GH, Build Step: CodeBuild, Deploy Step: CodeDeploy)
+		The source step detects/outputs the changes and triggers the CodeBuild. CodeDeploy receives the output of the CodeBuild step and deploys the result to EC2.
+	● ECR for external cache: This improves the Build Step to reduce the time.
+	● Connect the CloudWatch service for deployment monitoring 
+	● Global accelerator for load balancing
+- Automate all steps for CI/CD were automated using Terraform, I can configure CI/CD easily by using terraform CLI.
+If you want, I can show and explain some parts of projects by running projects in my local.
+
+Hope my experience will be helpful for your project. 
+Please let me know if you have any questions.
+
+Look forward to discussing more detail about this opportunity.
+
+Thanks for your time and consideration.
+Best Regard!
+
+
+
+======================================BlockChain========================================
+
+Hello, thanks for your job posting.
+I have read your job description and I am really interested in this job opportunity
+I have 8 years of Backend development experience and I am familiar with Python, Javascript, Php, Rust, Golang.
+Backend development is now going to micro service architecture by using Kafka, RabbitMQ. Also the Docker containerization is used widely for scalability and fast development.
+I can configure CI/CD by using Jenkins and github actions. I used web3js, Etherjs for blockchain event cache and backend signature system for blockchain signature(EIP712 Domain), log and catch events.
+Here are apps I have developed so far.
+- mint web site
+https://mint.kaijukongz.io/
+https://www.goldendao.xyz/
+
+- metaverse site
+https://camp.playrooniverse.com/
+www.playrooniverse.com
+
+https://staking.ufogaming.io/
+https://dev-staking.ufogaming.io/
+https://ufogees-dev-v2.ufogaming.io/
+https://ufogaming.io/
+https://ufometaverse.io/
+
+- web2 social and blog site
+https://music.ayozat.co.uk/
+https://plutex-ceef5.web.app/
+
+- nft marketplace website
+https://www.deadheads.io/
+https://dev-app.deadheads.io/#/
+https://dev-app.ufogaming.io/
