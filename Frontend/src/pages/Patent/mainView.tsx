@@ -9,7 +9,137 @@ const mainView = () => {
     const [pAllData, setPAllData] = useState([]);
     const [pData, setPData] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [selectedPatentId, setSelectedPatentId] = useState('');
+    const [activeTab, setActiveTab] = useState(0);
+
+    const tabContent = [
+      {
+        id: 0,
+        title: 'Main Info',
+        content: (
+          <div>
+            <div className="text-md font-bold">Reference_no</div>
+            <label className="text-sm mt-2">{  pData && pData['Reference_no'] ? pData['Reference_no'] : '-' }</label>
+
+            <div className="text-md font-bold mt-4">Patent family</div>
+            <label className="text-sm mt-2">{ pData && pData['Patent_family'] ? pData['Patent_family'] : '-' }</label>
+            
+            <div className="text-md font-bold mt-4">Application No</div>
+            <label className="text-sm mt-2">{ pData && pData['Application_no'] ? pData['Application_no'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Jurisdiction</div> 
+            <label className="text-sm mt-2">{ pData && pData['Jurisdiction'] ? pData['Jurisdiction'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Invention title</div>
+            <label className="text-sm mt-2">{ pData && pData['Invention_title'] ? pData['Invention_title' ] : '-' }</label>
+
+            <div className="text-md font-bold mt-4">Abstract</div>
+            <label className="text-sm mt-2">{ pData && pData['Abstract'] ? pData['Abstract'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Patent_Application_Type</div>
+            <label className="text-sm mt-2">{ pData && pData['Patent_Application_Type'] ? pData['Patent_Application_Type'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">PCT_Application_No</div>
+            <label className="text-sm mt-2">{ pData && pData['PCT_Application_No'] ? pData['PCT_Application_No'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Priority_Application</div>
+            <label className="text-sm mt-2">{ pData && pData['Priority_Application'] ? pData['Priority_Application'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">WIPO_Database</div>
+            <label className="text-sm mt-2">{ pData && pData['WIPO_Database'] ? pData['WIPO_Database'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Status</div>
+            <label className={`text-sm mt-2 rounded-lg text-white ${pData && pData['Status'] === 'Pending Filing' ? 'bg-primary' : pData && pData['Status'] === 'granted' ? 'bg-success': pData && pData['Status'] === 'Filed' ? 'bg-danger': 'bg-meta-6'}`}>{ pData && pData['Status'] }</label>
+
+            <div className="text-md font-bold mt-4">Application_Phase</div>
+            <label className="text-sm mt-2">{ pData && pData['Application_Phase'] ? pData['Application_Phase'] : '-'}</label>
+
+            <div className="text-md font-bold mt-4">Published</div>
+            <label className="text-sm mt-2">{ pData && pData['Published'] ? pData['Published'] : '-'}</label>
+          </div>
+        ),
+      },
+      {
+        id: 1,
+        title: 'Other Info',
+        content: (
+            <div>
+                <div className="text-md font-bold mt-4">Publication_No</div>
+                <label className="text-sm mt-2">{ pData && pData['Publication_No'] ? pData['Publication_No'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Inventors</div>
+                <label className="text-sm mt-2">{ pData && pData['Inventors'] ? pData['Inventors'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Official_Database</div>
+                <label className="text-sm mt-2">{ pData && pData['Official_Database'] ? pData['Official_Database'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Applicant</div>
+                <label className="text-sm mt-2">{ pData && pData['Applicant'] ? pData['Applicant'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Applicant_address</div>
+                <label className="text-sm mt-2">{ pData && pData['Applicant_address'] ? pData['Applicant_address'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">IP_Firm</div>
+                <label className="text-sm mt-2">{ pData && pData['IP_Firm'] ? pData['IP_Firm'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">IP_Firm_Reference_No</div>
+                <label className="text-sm mt-2">{ pData && pData['IP_Firm_Reference_No'] ? pData['IP_Firm_Reference_No'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Address_for_services</div>
+                <label className="text-sm mt-2">{ pData && pData['Address_for_services'] ? pData['Address_for_services'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Responsible_Attorney</div>
+                <label className="text-sm mt-2">{ pData && pData['Responsible_Attorney'] ? pData['Responsible_Attorney'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Comments</div>
+                <label className="text-sm mt-2">{ pData && pData['Comments'] ? pData['Comments'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Costs</div>
+                <label className="text-sm mt-2">{ pData && pData['Costs'] ? pData['Costs'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Files</div>
+                <label className="text-sm mt-2">{ pData && pData['Files'] ? pData['Files'] : '-'}</label>
+            </div>
+        ),
+      },
+      {
+        id: 2,
+        title: 'Deadline Info',
+        content: (
+            <div>
+                <div className="text-md font-bold mt-4">Earliest_Priority_Date</div>
+                <label className="text-sm mt-2">{ pData && pData['Earliest_Priority_Date'] ? pData['Earliest_Priority_Date'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Complete_Application_Deadline</div>
+                <label className="text-sm mt-2">{ pData && pData['Complete_Application_Deadline'] ? pData['Complete_Application_Deadline'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">International_Filing_Date</div>
+                <label className="text-sm mt-2">{ pData && pData['International_Filing_Date'] ? pData['International_Filing_Date'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">National_Phase_Deadline</div>
+                <label className="text-sm mt-2">{ pData && pData['National_Phase_Deadline'] ? pData['National_Phase_Deadline'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Convention_Deadline</div>
+                <label className="text-sm mt-2">{ pData && pData['Convention_Deadline'] ? pData['Convention_Deadline'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Publication_Date</div>
+                <label className="text-sm mt-2">{ pData && pData['Publication_Date'] ? pData['Publication_Date'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Patent_Anniversary</div>
+                <label className="text-sm mt-2">{ pData && pData['Patent_Anniversary'] ? pData['Patent_Anniversary'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Next_Renewal</div>
+                <label className="text-sm mt-2">{ pData && pData['Next_Renewal'] ? pData['Next_Renewal'] : '-'}</label>
+
+                <div className="text-md font-bold mt-4">Deadlines</div>
+                <label className="text-sm mt-2">{ pData && pData['Deadlines'] ? pData['Deadlines'] : '-'}</label>
+            </div>
+        ),
+      },
+    ];
+
+    const handleTabClick = (id : any) => {
+        setActiveTab(id);
+      };
 
     useEffect(() => {
         getPatentAll();
@@ -43,16 +173,17 @@ const mainView = () => {
         setIsModalOpen(!isModalOpen);
     }
 
+
     return(
         <>
-            <div className="flex dark:bg-boxdark">
+            <div className="flex dark:bg-boxdark pt-3 round-xl overflow-y-auto min-h-100" style={{ minHeight: "100vh" }}>
                 <Card className="w-70 min-h-100 overflow-y-auto shadow-xl dark:bg-boxdark">
-                    <div className="items-center justify-center">
+                    <div className="items-center justify-center" style={{ padding: "8px 16px" }}>
                         <button className="flex" onClick={toggleModal}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
-                            Insert Patent
+                            Insert Record
                         </button>
                         {isModalOpen && (
                             <ModalView 
@@ -63,159 +194,41 @@ const mainView = () => {
 
                     <ul className="list-none p-0 space-y-2">
                         {pAllData.map(({ Reference_no, _id }) => (
-                            <li key={_id} className="p-2 rounded " onClick={() => handlePatentById(_id)}>
+                            <li key={_id} className="p-2 rounded px-6 py-4" onClick={() => handlePatentById(_id)}>
                                 {Reference_no}
                             </li>
                         ))}
                     </ul>
                 </Card>
-                <div className="w-full h-full bg-white grid grid-cols-2 gap-4 dark:bg-boxdark">
+                <div className="w-full bg-white grid grid-cols-2 gap-4 dark:bg-boxdark">
                     <div className="bg-white dark:bg-boxdark">
-                        <div className="w-full h-50 rounded-lg">
-                            <div className="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96">
-                                <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                                    <span className="absolute top-1/2 left-1/2 text-2xl font-semibold text-white -translate-x-1/2 -translate-y-1/2 sm:text-3xl dark:text-gray-800">First Slide</span>
-                                    <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" className="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" alt="..."/>
-                                </div>
-
-                                <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                                    <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" className="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" alt="..."/>
-                                </div>
-
-                                <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                                    <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" className="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" alt="..."/>
-                                </div>
-                            </div>
-
-                            <div className="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">
-                                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                            </div>
-
-                            <button type="button" className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
-                                <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                    <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
-                                    <span className="hidden">Previous</span>
-                                </span>
-                            </button>
-                            <button type="button" className="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"  data-carousel-next>
-                                <span className="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                    <svg className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-                                    <span className="hidden">Next</span>
-                                </span>
-                            </button>
-                        </div>
+                        {/* image */}
                     </div>
-
+                    
                     <div className="bg-white dark:bg-boxdark">
                         {/* <div className="text-md font-bold mt-4">Abstract</div>
                         <div className="text-sm mt-2">{ pData && pData['Abstract'] }</div> */}
-
-                        <div className="text-md font-bold">Reference_no</div>
-                        <div className="text-sm mt-2">{ pData && pData['Reference_no'] }</div>
-
-                        <div className="text-md font-bold mt-4">Patent family</div>
-                        <div className="text-sm mt-2">{ pData && pData['Patent_family'] }</div>
-                        
-                        <div className="text-md font-bold mt-4">Application No</div>
-                        <div className="text-sm mt-2">{ pData && pData['Application_no'] }</div>
-
-                        <div className="text-md font-bold mt-4">Jurisdiction</div> 
-                        <div className="text-sm mt-2">{ pData && pData['Jurisdiction'] }</div>
-
-                        <div className="text-md font-bold mt-4">Invention title</div>
-                        <div className="text-sm mt-2">{ pData && pData['Invention_title'] }</div>
-
-                        <div className="text-md font-bold mt-4">Abstract</div>
-                        <div className="text-sm mt-2">{ pData && pData['Abstract'] }</div>
-
-                        <div className="text-md font-bold mt-4">Earliest_Priority_Date</div>
-                        <div className="text-sm mt-2">{ pData && pData['Earliest_Priority_Date'] }</div>
-
-                        <div className="text-md font-bold mt-4">Patent_Application_Type</div>
-                        <div className="text-sm mt-2">{ pData && pData['Patent_Application_Type'] }</div>
-
-                        <div className="text-md font-bold mt-4">Complete_Application_Deadline</div>
-                        <div className="text-sm mt-2">{ pData && pData['Complete_Application_Deadline'] }</div>
-
-                        <div className="text-md font-bold mt-4">International_Filing_Date</div>
-                        <div className="text-sm mt-2">{ pData && pData['International_Filing_Date'] }</div>
-
-                        <div className="text-md font-bold mt-4">PCT_Application_No</div>
-                        <div className="text-sm mt-2">{ pData && pData['PCT_Application_No'] }</div>
-
-                        <div className="text-md font-bold mt-4">Priority_Application</div>
-                        <div className="text-sm mt-2">{ pData && pData['Priority_Application'] }</div>
-
-                        <div className="text-md font-bold mt-4">WIPO_Database</div>
-                        <div className="text-sm mt-2">{ pData && pData['WIPO_Database'] }</div>
-
-                        <div className="text-md font-bold mt-4">National_Phase_Deadline</div>
-                        <div className="text-sm mt-2">{ pData && pData['National_Phase_Deadline'] }</div>
-
-                        <div className="text-md font-bold mt-4">Convention_Deadline</div>
-                        <div className="text-sm mt-2">{ pData && pData['Convention_Deadline'] }</div>
-
-                        <div className="text-md font-bold mt-4">Status</div>
-                        <div className="text-sm mt-2">{ pData && pData['Status'] }</div>
-
-                        <div className="text-md font-bold mt-4">Application_Phase</div>
-                        <div className="text-sm mt-2">{ pData && pData['Application_Phase']}</div>
-
-                        <div className="text-md font-bold mt-4">Published</div>
-                        <div className="text-sm mt-2">{ pData && pData['Published'] }</div>
-
-                        <div className="text-md font-bold mt-4">Publication_Date</div>
-                        <div className="text-sm mt-2">{ pData && pData['Publication_Date'] }</div>
-
-                        <div className="text-md font-bold mt-4">Publication_No</div>
-                        <div className="text-sm mt-2">{ pData && pData['Publication_No'] }</div>
-
-                        <div className="text-md font-bold mt-4">Inventors</div>
-                        <div className="text-sm mt-2">{ pData && pData['Inventors'] }</div>
-
-                        <div className="text-md font-bold mt-4">Official_Database</div>
-                        <div className="text-sm mt-2">{ pData && pData['Official_Database'] }</div>
-
-                        <div className="text-md font-bold mt-4">Applicant</div>
-                        <div className="text-sm mt-2">{ pData && pData['Applicant'] }</div>
-
-                        <div className="text-md font-bold mt-4">Applicant_address</div>
-                        <div className="text-sm mt-2">{ pData && pData['Applicant_address'] }</div>
-
-                        <div className="text-md font-bold mt-4">IP_Firm</div>
-                        <div className="text-sm mt-2">{ pData && pData['IP_Firm']}</div>
-
-                        <div className="text-md font-bold mt-4">IP_Firm_Reference_No</div>
-                        <div className="text-sm mt-2">{ pData && pData['IP_Firm_Reference_No']}</div>
-
-                        <div className="text-md font-bold mt-4">Address_for_services</div>
-                        <div className="text-sm mt-2">{ pData && pData['Address_for_services']}</div>
-
-                        <div className="text-md font-bold mt-4">Responsible_Attorney</div>
-                        <div className="text-sm mt-2">{ pData && pData['Responsible_Attorney']}</div>
-
-                        {/* <div className="text-md font-bold mt-4">Attachments</div>
-                        <div className="text-sm mt-2"></div> */}
-
-                        <div className="text-md font-bold mt-4">Patent_Anniversary</div>
-                        <div className="text-sm mt-2">{ pData && pData['Patent_Anniversary']}</div>
-
-                        <div className="text-md font-bold mt-4">Next_Renewal</div>
-                        <div className="text-sm mt-2">{ pData && pData['Next_Renewal']}</div>
-
-                        <div className="text-md font-bold mt-4">Deadlines</div>
-                        <div className="text-sm mt-2">{ pData && pData['Deadlines']}</div>
-
-                        <div className="text-md font-bold mt-4">Comments</div>
-                        <div className="text-sm mt-2">{ pData && pData['Comments']}</div>
-
-                        <div className="text-md font-bold mt-4">Costs</div>
-                        <div className="text-sm mt-2">{ pData && pData['Costs']}</div>
-
-                        <div className="text-md font-bold mt-4">Invoices</div>
-                        <div className="text-sm mt-2">{ pData && pData['Invoices']}</div>
+                            <div className="w-full">
+                                <div className="border-b border-gray-200">
+                                    <nav className="flex space-x-4 w-full" aria-label="Tabs">
+                                    {tabContent.map((tab) => (
+                                        <button
+                                        key={tab.id}
+                                        onClick={() => handleTabClick(tab.id)}
+                                        className={`text-gray-700 ${
+                                            activeTab === tab.id
+                                            ? 'border-indigo-500 text-indigo-600'
+                                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                        } py-4 px-1 border-b-2 font-medium text-sm`}
+                                        aria-selected={tab.id === activeTab}
+                                        >
+                                        {tab.title}
+                                        </button>
+                                    ))}
+                                    </nav>
+                                </div>
+                                <div className="mt-4">{tabContent[activeTab].content}</div>
+                            </div>
                     </div>  
                 </div>
             </div>

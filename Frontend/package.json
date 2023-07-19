@@ -23,12 +23,14 @@
     "jsvectormap": "^1.5.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-notifications": "^1.7.4",
     "react-notifications-component": "^4.0.1",
     "react-router-dom": "^6.8.1",
+    "react-select": "^5.7.4",
     "sort-by": "^0.0.2"
   },
   "devDependencies": {

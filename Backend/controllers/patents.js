@@ -2,32 +2,33 @@ const Patent = require('../models/Patent');
 const multer = require('multer');
 
 exports.newPatents = async(req, res) => {
+    
     console.log(req.body);
     const newPatent = new Patent(req.body)
     Patent.findOne({Application_no : req.body.Application_no})
-        .then(data => {
-            if(data){
-                return res.status(422).json({ error : "This record is already created!" })
-            }
-            else {
-                newPatent.save().then(data => {
-                    res.status(200).json({
-                        status : "Success",
-                        data
-                    })
-                }).catch(err => {
-                    console.log(err)
-                    res.status(400).json({
-                        status : "Failed",
-                        message : err
-                    })
+    .then(data => {
+        if(data){
+            return res.status(422).json({ error : "This record is already created!" })
+        }
+        else {
+            newPatent.save().then(data => {
+                res.status(200).json({
+                    status : "Success",
+                    data
                 })
-            }
-        }).catch(err => {
-            res.status(500).json({
-                message : [{ error : 'Something went wrong' }]
-            });
-        })
+            }).catch(err => {
+                console.log(err)
+                res.status(400).json({
+                    status : "Failed",
+                    message : err
+                })
+            })
+        }
+    }).catch(err => {
+        res.status(500).json({
+            message : [{ error : 'Something went wrong' }]
+        });
+    })
 }
 
 exports.getPatentsAll = async(req, res, next) => {
