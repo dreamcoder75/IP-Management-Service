@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard/dashboard';
 import PatentView from './pages/Patent/patentView';
 import Loader from './common/Loader';
 import Trademark from './pages/Trademark/trademark';
-import Design from './pages/Design/design';
+import Design from './pages/Design/designView';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 

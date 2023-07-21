@@ -5,7 +5,7 @@ const galleryView  = () => {
     return(
         <>
             <div className="grid grid-cols-5 gap-4 pt-3">
-                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300">
                     <CardHeader className="m-0 scale-100 rounded-lg">
                     <img className="h-[300px] w-full"
                         src="/src/images/VEFF.JPG"
@@ -28,7 +28,7 @@ const galleryView  = () => {
                     </CardBody>
                 </Card>
 
-                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300">
                     <CardHeader className="m-0 scale-100 rounded-lg">
                     <img className="h-[300px] w-full"
                         src="/src/images/PEF.JPG"
@@ -51,7 +51,7 @@ const galleryView  = () => {
                     </CardBody>
                 </Card>
 
-                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300">
                     <CardHeader className="m-0 scale-100 rounded-lg">
                     <img className="h-[300px] w-full"
                         src="/src/images/TRIIII.JPG"
@@ -74,7 +74,7 @@ const galleryView  = () => {
                     </CardBody>
                 </Card>
 
-                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300">
                     <CardHeader className="m-0 scale-100 rounded-lg">
                     <img className="h-[300px] w-full"
                         src="/src/images/TRIT.JPG"
@@ -97,7 +97,7 @@ const galleryView  = () => {
                     </CardBody>
                 </Card>
 
-                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-300">
+                <Card className="bg-white dark:bg-boxdark max-w-sm rounded-lg overflow-hidden drop-shadow-lg transition ease-in-out hover:-translate-y-1 hover:scale-100 hover:bg-indigo-500 duration-300">
                     <CardHeader className="m-0 scale-100 rounded-lg">
                     <img className="h-[300px] w-full"
                         src="/src/images/Veefil.JPG"

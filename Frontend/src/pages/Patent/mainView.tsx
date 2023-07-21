@@ -178,7 +178,7 @@ const mainView = () => {
         <>
             <div className="flex dark:bg-boxdark pt-3 round-xl overflow-y-auto min-h-100" style={{ minHeight: "100vh" }}>
                 <Card className="w-70 min-h-100 overflow-y-auto shadow-xl dark:bg-boxdark">
-                    <div className="items-center justify-center" style={{ padding: "8px 16px" }}>
+                    <div className="items-center justify-center p-2">
                         <button className="flex" onClick={toggleModal}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -215,11 +215,11 @@ const mainView = () => {
                                         <button
                                         key={tab.id}
                                         onClick={() => handleTabClick(tab.id)}
-                                        className={`text-gray-700 ${
+                                        className={`hs-tab-active:bg-white hs-tab-active:border-b-transparent hs-tab-active:text-blue-600 dark:hs-tab-active:bg-gray-800 dark:hs-tab-active:border-b-gray-800 dark:hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 font-medium text-center border text-gray-500 rounded-t-lg hover:text-gray-700 dark:bg-gray-700 dark:border-gray-700 dark:text-gray-400 active ${
                                             activeTab === tab.id
-                                            ? 'border-indigo-500 text-indigo-600'
+                                            ? 'border-indigo-500 text-indigo-600 text-lg text-primary '
                                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                        } py-4 px-1 border-b-2 font-medium text-sm`}
+                                        } py-4 px-1 border-b-2 font-medium text-base`}
                                         aria-selected={tab.id === activeTab}
                                         >
                                         {tab.title}

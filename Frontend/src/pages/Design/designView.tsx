@@ -2,7 +2,7 @@ import { useState } from "react";
 import MainView from './mainView';
 import GalleryView from './galleryView';
 
-const patentView = () => {
+const designView = () => {
     const [selectedOption, setSelectedOption] = useState('mainview');
     const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedOption(e.target.value);
@@ -93,4 +93,4 @@ const patentView = () => {
     );
 }
 
-export default patentView
+export default designView;
