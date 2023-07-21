@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import moment from 'moment';
 import { ReactNotifications } from 'react-notifications-component';
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 import { base_URL } from "../../constants/config";
 import { Store } from "react-notifications-component";
@@ -12,28 +12,55 @@ import { Store } from "react-notifications-component";
 import 'react-notifications-component/dist/theme.css';
 // import 'animate.css';
 
-const InventorOptions = [
-    { value: "Certified Inventor1", label: "Certified Inventor1" },
-    { value: "Certified Inventor2", label: "Certified Inventor2" },
-    { value: "Certified Inventor3", label: "Certified Inventor3" },
-    { value: "Certified Inventor4", label: "Certified Inventor4" },
-    { value: "Certified Inventor5", label: "Certified Inventor5" },
-    { value: "Cerfitied Inventor6", label: "Cerfitied Inventor6" },
-    { value: "Cerfitied Inventor7", label: "Cerfitied Inventor7" },
-    { value: "Cerfitied Inventor8", label: "Cerfitied Inventor8" },
-    { value: "Cerfitied Inventor9", label: "Cerfitied Inventor9" },
-    { value: "Cerfitied Inventor10", label: "Cerfitied Inventor10" },
-  ];
+interface Option {
+    readonly label: string;
+    readonly value: string;
+  }
+  
+  const createOption = (label: string) => ({
+    label,
+    value: label,
+  });
+
+  const defaultPatentfamilyOptions = [
+    createOption('PF01'),
+    createOption('PF02'),
+    createOption('PF03')
+  ]
+
+  const defaultJurisdictionOptions = [
+    createOption('AU'),
+    createOption('US')
+  ]
+
+  const defaultPatentApptypeOptions = [
+    createOption('Provisional'),
+    createOption('PCT'),
+    createOption('Standard'),
+    createOption('Divisional')
+  ]
+
+  const defaultIPfirmOptions = [
+    createOption('IP Australia')
+  ]
 
 const modalView = (props : any) => {
     const [reference_no, setReference_no] = useState('');
-    const [patent_family, setPatent_family] = useState('PF01'); 
+
+    const [patent_family, setPatent_family] = useState<Option | null>();
+    const [patentfamilyOptions, setPatentfamilyOptions] = useState(defaultPatentfamilyOptions);
+    
     const [application_no, setApplication_no] = useState('');
-    const [jurisdiction, setJurisdiction] = useState('AU');
+    const [jurisdiction, setJurisdiction] = useState<Option | null>();
+    const [jurisdictionOptions, setJurisdictionOptions] = useState(defaultJurisdictionOptions);
+
     const [invention_title, setInvention_title] = useState('');
     const [abstract, setAbstract] = useState('');
     const [earliest_Priority_Date, setEarliest_Priority_Date] = useState('');
-    const [patent_Application_Type, setPatent_Application_Type] = useState('Provisional');
+
+    const [patent_Application_Type, setPatent_Application_Type] = useState<Option | null>();
+    const [patentApptypeOptions, setPatentApptypeOptions] = useState(defaultPatentApptypeOptions);
+
     const [complete_Application_Deadline, setComplete_Application_Deadline] = useState('1');
     const [international_Filing_Date, setInternational_Filing_Date] = useState('');
     const [pct_Application_No, setPCT_Application_No] = useState('');
@@ -46,14 +73,17 @@ const modalView = (props : any) => {
     const [published, setPublished] = useState('Yes');
     const [publication_Date, setPublication_Date] =useState('');
     const [publication_No, setPublication_No] = useState('');
-    const [inventors, setInventors] = useState({});
+    const [inventors, setInventors] = useState<readonly Option[]>([]);
+
     const [official_Database, setOfficial_Database] = useState('');
     const [applicant, setApplicant] = useState('');
     const [applicant_address, setApplicant_address] = useState('');
-    const [ip_firm, setIp_firm] = useState('');
+
+    const [ipfirmOptions, setIpfirmsOptions] = useState(defaultIPfirmOptions);
+    const [ip_firm, setIp_firm] = useState<Option | null>();
     const [ip_firm_ref_no, setIp_firm_ref_no] = useState('');
     const [address_for_services, setAddress_for_services] = useState('');
-    const [responsible_Attorney, setResponsible_Attorney] = useState('');
+    const [responsible_Attorney, setResponsible_Attorney] = useState<readonly Option[]>([]);
     const [patent_Anniversary, setPatent_Anniversary] = useState('');
     const [next_Renewal, setNext_Renewal] = useState('');
     const [deadlines, setDeadlines] = useState('');
@@ -79,11 +109,27 @@ const modalView = (props : any) => {
         setPatent_family(data);
     }
 
+    const handlePatent_familyCreate = (data : any) => {
+        setTimeout(() => {
+            const newOption = createOption(data);
+            setPatentfamilyOptions((prev :any) => [...prev, newOption]);
+            setPatent_family(newOption);
+          }, 1000);
+    }
+
     const handleApplication_noChange = (data: any) => {
         setApplication_no(data);
     }
 
-    const handleJurisdictionChange = (data: any) => {
+    const handleJurisdictionCreate = (data: any) => {
+        setTimeout(() => {
+            const newOption = createOption(data);
+            setJurisdictionOptions((prev :any) => [...prev, newOption]);
+            setJurisdiction(newOption);
+          }, 1000);
+    }
+
+    const handleJurisdictionChange = (data : any) => {
         setJurisdiction(data);
     }
 
@@ -106,27 +152,35 @@ const modalView = (props : any) => {
         Convention_Deadline.setFullYear(Convention_Deadline.getFullYear() + 1);
         setConvention_Deadline(moment(Convention_Deadline).format('YYYY-MM-DD'));
 
-        if(jurisdiction === "AU"){
+        if(jurisdiction?.value === "AU"){
            var National_Phase_Deadline = new Date(data);
            National_Phase_Deadline.setMonth(National_Phase_Deadline.getMonth() + 30);
            setNational_Phase_Deadline(moment(National_Phase_Deadline).format('YYYY-MM-DD'));
         }
 
-        else if (jurisdiction === "US"){
+        else if (jurisdiction?.value === "US"){
             var National_Phase_Deadline = new Date(data);
             National_Phase_Deadline.setMonth(National_Phase_Deadline.getMonth() + 31);
             setNational_Phase_Deadline(moment(National_Phase_Deadline).format('YYYY-MM-DD'));
         }
     }
 
+    const handlePatent_Application_TypeCreate = (data: any) => {
+        setTimeout(() => {
+            const newOption = createOption(data);
+            setPatentApptypeOptions((prev :any) => [...prev, newOption]);
+            setPatent_Application_Type(newOption);
+          }, 500);
+    }
+
     const handlePatent_Application_TypeChange = (data: any) => {
         setPatent_Application_Type(data);
-        setInputPCTANdisabled(data !== "PCT");
-        setInputPAdisabled(data !== "PCT");
-        setInputWIPOdisabled(data !== "PCT");
-        setInputIFDdisabled(data !== "PCT");
-        setInputNPDdisabled(data !== "PCT");
-        setInputNRdisabled(data === "Provisional");
+        setInputPCTANdisabled(data.value !== "PCT");
+        setInputPAdisabled(data.value !== "PCT");
+        setInputWIPOdisabled(data.value !== "PCT");
+        setInputIFDdisabled(data.value !== "PCT");
+        setInputNPDdisabled(data.value !== "PCT");
+        setInputNRdisabled(data.value === "Provisional");
     }
 
     const handleInternational_Filing_DateChange = (data: any) => {
@@ -179,15 +233,29 @@ const modalView = (props : any) => {
         setPublication_No(data);
     }
 
-    const handleInventorsChange = (selectedOptions: any) => {
-        const selectedValues = Array.from(selectedOptions).map((option :any) => option.value);
-        console.log("+++++++++", selectedValues);
-        setInventors(selectedValues);
-    }
+    // const createOption = (label: string) => ({
+    //     label,
+    //     value: label.toLowerCase().replace(/\W/g, ''),
+    // });
 
-    const handleOfficial_DatabaseChange = (data: any) => {
-        setOfficial_Database(data);
-    }
+    const handleInventorsChange = (newValue : any, actionMeta : any) => {
+        if (actionMeta.action === 'create-option') {
+            const newOption = {
+              value: actionMeta.option.label,
+              label: actionMeta.option.label,
+            };
+            setInventors((prevSelectedOptions) => [
+              ...prevSelectedOptions,
+              newOption,
+            ]);
+          } else {
+            setInventors(newValue);
+          }
+    }   
+
+    // const handleOfficial_DatabaseChange = (data: any) => {
+    //     setOfficial_Database(data);
+    // }
 
     const handleApplicantChange = (data: any) => {
         setApplicant(data);
@@ -201,6 +269,14 @@ const modalView = (props : any) => {
         setIp_firm(data);
     }
 
+    const handleIP_FirmCreate = (data : any) => {
+        setTimeout(() => {
+            const newOption = createOption(data);
+            setIpfirmsOptions((prev :any) => [...prev, newOption]);
+            setIp_firm(newOption);
+          }, 1000);
+    }
+
     const handleIP_Firm_Reference_NoChange = (data: any) => {
         setIp_firm_ref_no(data);
     }
@@ -209,8 +285,21 @@ const modalView = (props : any) => {
         setAddress_for_services(data);
     }
 
-    const handleResponsible_AttorneyChange = (data: any) => {
-        setResponsible_Attorney(data);
+    const handleResponsible_AttorneyChange = (data: any, actionMeta: any) => {
+        // setResponsible_Attorney(data);
+
+        if (actionMeta.action === 'create-option') {
+            const newOption = {
+              value: actionMeta.option.label,
+              label: actionMeta.option.label,
+            };
+            setResponsible_Attorney((prevSelectedOptions) => [
+              ...prevSelectedOptions,
+              newOption,
+            ]);
+          } else {
+            setResponsible_Attorney(data);
+          }
     }
 
     const handlePatent_AnniversaryChange = (data: any) => {
@@ -351,347 +440,355 @@ const modalView = (props : any) => {
 
     return(
         <>
-        <div className="fixed z-10 inset-0 overflow-y-auto bg-black/90 app-container">
+        <div className="fixed z-10 inset-0 bg-black/90 app-container">
             <div className="flex items-baseline pt-20 pb-12 justify-center min-h-screen">
                 <ReactNotifications/>
-                <div
-                    className="fixed inset-0 bg-gray-500 bg-opacity-75"
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75"
                     onClick={props.setToggleModal}
                 >
                 </div>
 
-                <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all xs:w-4/5 mt-4 md:w-[600px] dark:bg-boxdark">
-                    <div className="p-6">
+                <div className="bg-white rounded-lg oevrflow-hidden shadow-xl transform transition-all xs:w-4/5 mt-4 md:w-[600px] dark:bg-boxdark">
+                    <div className="pl-8 pr-2 py-6">
                         <div className="text-3xl font-bold text-center">New Patent</div>
-                            <div>
-                                <label className="text-sm">Reference No</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange= {(e) => {handleReference_noChange(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Application No</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    // disabled
-                                    onChange={(e) => {handleApplication_noChange(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Patent Family</label>
+                            <div style={{height: "74vh", overflow: "auto"}} >
                                 <div>
-                                    <select id="Patent_Family" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handlePatent_familyChange(e.target.value)}}>
-                                        <option defaultValue="PF01">PF01</option>
-                                        <option value="PF02">PF02</option>
-                                        <option value="PF03">PF03</option>
+                                    <label className="text-sm">Reference No</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange= {(e) => {handleReference_noChange(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Application No</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        // disabled
+                                        onChange={(e) => {handleApplication_noChange(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Patent Family</label>
+                                    <CreatableSelect 
+                                        options = {patentfamilyOptions} 
+                                        isClearable
+                                        onChange = {handlePatent_familyCreate}
+                                        onCreateOption={handlePatent_familyChange}
+                                        value={patent_family}/>
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Jurisdiction</label>
+                                    <CreatableSelect
+                                        options={jurisdictionOptions}
+                                        onChange={handleJurisdictionChange}
+                                        onCreateOption={handleJurisdictionCreate}
+                                        value = {jurisdiction}
+                                        placeholder="Select or create an Jurisdiction..."
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Invention Title</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition  focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleInvention_title(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Patent Figures</label>
+                                    <ImageUploader 
+                                        accept="image/png, image/jpeg"
+                                        onChange={handleimageSelected}
+                                        multiple/>
+                                    <ImagePreview images={uploadimages} />
+
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Abstract</label>
+                                    <textarea className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" placeholder="Your message... " onChange={(e) => {handleAbstractChange(e.target.value)}}></textarea>
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Earliest Priority Date</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleEarliest_Priority_DateChange(e.target.value)}}
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Patent Application Type </label>
+                                    <CreatableSelect
+                                        options={patentApptypeOptions}
+                                        onChange={handlePatent_Application_TypeChange}
+                                        onCreateOption={handlePatent_Application_TypeCreate}
+                                        value = {patent_Application_Type}
+                                        placeholder="Select or create an Patent Application Type..."
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Complete Application Deadline</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        // onChange={(e) => {handleComplete_Application_DeadlineChange(e.target.value)}}
+                                        value={complete_Application_Deadline}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">International Filing Date</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputIFDdisabled}
+                                        onChange={(e) => {handleInternational_Filing_DateChange(e.target.value)}}
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">PCT Application No</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputPCTANdisabled}
+                                        onChange={(e) => {handlePCT_Application_NoChange(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Priority Application</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputPAdisabled}
+                                        onChange={(e) => {handlePriority_ApplicationChange(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">WIPO Database</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputWIPOdisabled}
+                                        onChange={(e) => {handleWIPO_DatabaseChange(e.target.value)}}
+                                        />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">National Phase Deadline</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputNPDdisabled}
+                                        value={national_Phase_Deadline}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Convention Deadline</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        value={convention_Deadline}
+                                        readOnly
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Status </label>
+                                    <select id="Status" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handleStatusChange(e.target.value)}}>
+                                        <option defaultValue="Pending Filing">Pending Filing</option>
+                                        <option value="Filed">Filed</option>
+                                        <option value="Granted">Granted</option>
+                                        <option value="Lapsed">Lapsed</option>
                                     </select>
                                 </div>
-                            </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Jurisdiction</label>
-                                <div>
-                                    <select id="Patent_Family" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"  onChange={(e) => {handleJurisdictionChange(e.target.value)}}>
-                                        <option defaultValue="AU">AU</option>
-                                        <option value="US">US</option>
-                                        <option value="UK">UK</option>
+                                <div className="py-2">
+                                    <label className="text-sm">Application Phase</label>
+                                    <select id="Application Phase" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handleApplication_PhaseChange(e.target.value)}}>
+                                        <option defaultValue="International Phase">International Phase</option>
+                                        <option value="National Phase">National Phase</option>
+                                        <option value="Examined">Examined</option>
+                                        <option value="XR Issued">XR Issued</option>
+                                        <option value="Response Filed">Response Filed</option>
+                                        <option value="Accepted">Accepted</option>
+                                        <option value="Opposition">Opposition</option>
+                                        <option value="Granted">Granted</option>
                                     </select>
                                 </div>
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Invention Title</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition  focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleInvention_title(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Patent Figures</label>
-                                <ImageUploader 
-                                    accept="image/png, image/jpeg"
-                                    onChange={handleimageSelected}
-                                    multiple/>
-                                <ImagePreview images={uploadimages} />
-
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Abstract</label>
-                                <textarea className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" placeholder="Your message... " onChange={(e) => {handleAbstractChange(e.target.value)}}></textarea>
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Earliest Priority Date</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleEarliest_Priority_DateChange(e.target.value)}}
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Patent Application Type </label>
-                                <select id="Patent Application Type" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handlePatent_Application_TypeChange(e.target.value)}}>
-                                    <option defaultValue="Provisional">Provisional</option>
-                                    <option value="PCT">PCT</option>
-                                    <option value="Standard">Standard</option>
-                                    <option value="Divisional">Divisional</option>
-                                </select>
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Complete Application Deadline</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    // onChange={(e) => {handleComplete_Application_DeadlineChange(e.target.value)}}
-                                    value={complete_Application_Deadline}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">International Filing Date</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputIFDdisabled}
-                                    onChange={(e) => {handleInternational_Filing_DateChange(e.target.value)}}
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">PCT Application No</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputPCTANdisabled}
-                                    onChange={(e) => {handlePCT_Application_NoChange(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Priority Application</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputPAdisabled}
-                                    onChange={(e) => {handlePriority_ApplicationChange(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">WIPO Database</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputWIPOdisabled}
-                                    onChange={(e) => {handleWIPO_DatabaseChange(e.target.value)}}
-                                    />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">National Phase Deadline</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputNPDdisabled}
-                                    value={national_Phase_Deadline}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Convention Deadline</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    value={convention_Deadline}
-                                    readOnly
-                                />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Status </label>
-                                <select id="Status" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handleStatusChange(e.target.value)}}>
-                                    <option defaultValue="Pending Filing">Pending Filing</option>
-                                    <option value="Filed">Filed</option>
-                                    <option value="Granted">Granted</option>
-                                    <option value="Lapsed">Lapsed</option>
-                                </select>
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Application Phase</label>
-                                <select id="Application Phase" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handleApplication_PhaseChange(e.target.value)}}>
-                                    <option defaultValue="International Phase">International Phase</option>
-                                    <option value="National Phase">National Phase</option>
-                                    <option value="Examined">Examined</option>
-                                    <option value="XR Issued">XR Issued</option>
-                                    <option value="Response Filed">Response Filed</option>
-                                    <option value="Accepted">Accepted</option>
-                                    <option value="Opposition">Opposition</option>
-                                    <option value="Granted">Granted</option>
-                                </select>
-                            </div>
-                           
-                            <div className="py-2">
-                                <label className="text-sm">Published</label>
-                                <select id="Published" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handlePublishedChange(e.target.value)}}>
-                                    <option defaultValue="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                        
-                            <div className="py-2">
-                                <label className="text-sm">Publication Date </label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handlePublication_DateChange(e.target.value)}}
-                                    disabled = {inputPDdisable}
-                                />
-                            </div>
-                           
-                            <div className="py-2">
-                                <label className="text-sm">Publication No</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handlePublication_NoChange(e.target.value)}}
-                                    disabled = {inputPNdisable}
-                                    />
-                            </div>
-                       
-                            <div className="py-2">
-                                <label className="text-sm">Inventors</label>
-                                <Select options = {InventorOptions} onChange={handleInventorsChange} isMulti/>
-                            </div>
-                         
-                            <div className="py-2">
-                                <label className="text-sm">Official Database</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleOfficial_DatabaseChange(e.target.value)}}
-                                    />
-                            </div>
                             
-                            <div className="py-2">
-                                <label className="text-sm">Applicant</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleApplicantChange(e.target.value)}}
-                                    />
-                            </div>
-                          
-                            <div className="py-2">
-                                <label className="text-sm">Applicant Address</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleApplicant_addressChange(e.target.value)}}
-                                    />
-                            </div>
-                        
-                            <div className="py-2">
-                                <label className="text-sm">IP Firm</label>
-                                <div>
-                                    <select id="IP_Firm" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handleIP_FirmChange(e.target.value)}}>
-                                        <option defaultValue="IP Australia">IP Australia</option>
-                                        <option value="IP United State">IP United State</option>
-                                        <option value="IP United Kingdom">IP United Kingdom</option>
+                                <div className="py-2">
+                                    <label className="text-sm">Published</label>
+                                    <select id="Published" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" onChange={(e) => {handlePublishedChange(e.target.value)}}>
+                                        <option defaultValue="Yes">Yes</option>
+                                        <option value="No">No</option>
                                     </select>
                                 </div>
-                            </div>
                             
-                            <div className="py-2">
-                                <label className="text-sm">IP Firm Reference No</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleIP_Firm_Reference_NoChange(e.target.value)}}
+                                <div className="py-2">
+                                    <label className="text-sm">Publication Date </label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handlePublication_DateChange(e.target.value)}}
+                                        disabled = {inputPDdisable}
                                     />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Address for services</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleAddress_for_servicesChange(e.target.value)}}
+                                </div>
+                            
+                                <div className="py-2">
+                                    <label className="text-sm">Publication No</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handlePublication_NoChange(e.target.value)}}
+                                        disabled = {inputPNdisable}
+                                        />
+                                </div>
+                        
+                                <div className="py-2">
+                                    <label className="text-sm">Inventors</label>
+                                    <CreatableSelect 
+                                        isMulti
+                                        value = {inventors}
+                                        onChange={handleInventorsChange}
+                                        isClearable
+                                        placeholder = "Select inventors..."
                                     />
-                            </div>
-
-                            <div className="py-2">
-                                <label className="text-sm">Responsible Attorney</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleResponsible_AttorneyChange(e.target.value)}}
+                                </div>
+                            
+                                <div className="py-2">
+                                    {/* <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleOfficial_DatabaseChange(e.target.value)}}
+                                        /> */}
+                                        <a href="http://pericles.ipaustralia.gov.au/ols/auspat/applicationDetails.do?applicationNo=2023901260" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a>
+                                </div>
+                                
+                                <div className="py-2">
+                                    <label className="text-sm">Applicant</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleApplicantChange(e.target.value)}}
+                                        />
+                                </div>
+                            
+                                <div className="py-2">
+                                    <label className="text-sm">Applicant Address</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleApplicant_addressChange(e.target.value)}}
+                                        />
+                                </div>
+                            
+                                <div className="py-2">
+                                    <label className="text-sm">IP Firm</label>
+                                    <CreatableSelect
+                                        options={ipfirmOptions}
+                                        onChange={handleIP_FirmChange}
+                                        onCreateOption={handleIP_FirmCreate}
+                                        value = {ip_firm}
+                                        placeholder="Select or create an IP Firm..."
                                     />
-                            </div>
+                                </div>
+                                
+                                <div className="py-2">
+                                    <label className="text-sm">IP Firm Reference No</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleIP_Firm_Reference_NoChange(e.target.value)}}
+                                        />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Patent Anniversary</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handlePatent_AnniversaryChange(e.target.value)}}
-                                />
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Address for services</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleAddress_for_servicesChange(e.target.value)}}
+                                        />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Next Renewal</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    disabled = {inputNRdisabled}
-                                    value={next_Renewal}
-                                    onChange={(e) => {handleNext_RenewalChange(e.target.value)}}
-                                />
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Responsible Attorney</label>
+                                    <CreatableSelect 
+                                        isMulti
+                                        value = {responsible_Attorney}
+                                        onChange={handleResponsible_AttorneyChange}
+                                        isClearable
+                                        placeholder = "Select Responsible Attorney..."
+                                    />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Deadlines</label>
-                                <input
-                                    type="date"
-                                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    onChange={(e) => {handleDeadlinesChange(e.target.value)}}
-                                />
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Patent Anniversary</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px]   border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handlePatent_AnniversaryChange(e.target.value)}}
+                                    />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Comments</label>
-                                <textarea className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" placeholder="Your message... " onChange={(e) => {handleCommentsChange(e.target.value)}}></textarea>
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Next Renewal</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        disabled = {inputNRdisabled}
+                                        value={next_Renewal}
+                                        onChange={(e) => {handleNext_RenewalChange(e.target.value)}}
+                                    />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Costs</label>
-                                <input
-                                    type="text"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary "
-                                    onChange={(e) => {handleCostsChange(e.target.value)}}
-                                />
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Deadlines</label>
+                                    <input
+                                        type="date"
+                                        className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        onChange={(e) => {handleDeadlinesChange(e.target.value)}}
+                                    />
+                                </div>
 
-                            <div className="py-2">
-                                <label className="text-sm">Files(Attachments and Invoices)</label>
-                                <ImageUploader 
-                                    accept="file/*"
-                                    onChange={handlefileSelected}
-                                    multiple/>
-                            </div>
+                                <div className="py-2">
+                                    <label className="text-sm">Comments</label>
+                                    <textarea className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" placeholder="Your message... " onChange={(e) => {handleCommentsChange(e.target.value)}}></textarea>
+                                </div>
 
+                                <div className="py-2">
+                                    <label className="text-sm">Costs</label>
+                                    <input
+                                        type="text"
+                                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary "
+                                        onChange={(e) => {handleCostsChange(e.target.value)}}
+                                    />
+                                </div>
+
+                                <div className="py-2">
+                                    <label className="text-sm">Files(Attachments and Invoices)</label>
+                                    <ImageUploader 
+                                        accept="file/*"
+                                        onChange={handlefileSelected}
+                                        multiple/>
+                                </div>
+                            </div>
                             <div className="text-right">
                                 <button
                                     onClick={handleNewPatent}
