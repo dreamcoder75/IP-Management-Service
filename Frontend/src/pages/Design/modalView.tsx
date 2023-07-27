@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import CreatableSelect from "react-select/creatable";
 import ImageUploader from './ImageUploader';
 import ImagePreview from './ImagePreview';
+import moment from 'moment';
 
 interface Option {
     readonly label: string;
@@ -81,6 +82,13 @@ const modalView = (props: any) => {
 
     const handleFiling_DateChange = (data: any) => {
         setFiling_date(data);
+        var max_Registration_date = new Date(data);
+        max_Registration_date.setFullYear(max_Registration_date.getFullYear() + 10);
+        setRegistration_period(moment(max_Registration_date).format('YYYY-MM-DD'));
+
+        var Registration_until = new Date(data);
+        Registration_until.setFullYear(Registration_until.getFullYear() + 5);
+        setRegistered_until(moment(Registration_until).format('YYYY-MM-DD'));
     }
 
     const handleDesignImages = (data: any) => {
@@ -116,6 +124,10 @@ const modalView = (props: any) => {
           } else {
             setDesigner(data);
           }
+    }
+
+    const handleOfficial_DatabaseChange = (data: any) => {
+        setOfficial_Database(data);
     }
 
     const handleApplicantChange = (data: any) => {
@@ -277,7 +289,12 @@ const modalView = (props: any) => {
                             </div>
 
                             <div className='py-2'>
-                                <a href="http://pericles.ipaustralia.gov.au/ols/auspat/applicationDetails.do?applicationNo=2023901260" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a>
+                                <label className="text-sm">Offical Database</label>
+                                <input
+                                    type="text"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    onChange={(e) => {handleOfficial_DatabaseChange(e.target.value)}}
+                                    />
                             </div>
 
                             <div className='py-2'>
@@ -324,6 +341,7 @@ const modalView = (props: any) => {
                                     type="date"
                                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     onChange={(e) => {handleRegistrationPeriod(e.target.value)}}
+                                    value={registration_period}
                                 />
                             </div>
 
@@ -333,6 +351,7 @@ const modalView = (props: any) => {
                                     type="date"
                                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     onChange={(e) => {handleRegisteredUntil(e.target.value)}}
+                                    value={registered_until}
                                 />
                             </div>
 

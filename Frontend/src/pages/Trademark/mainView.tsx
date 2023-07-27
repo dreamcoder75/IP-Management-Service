@@ -44,8 +44,12 @@ function mainView() {
                     <div className="text-md font-bold mt-4">Status</div>
                     <label className="text-sm mt-2">{tradeData && tradeData['Status'] ? tradeData['Status'] : '-'}</label>
 
-                    <div className="text-md font-bold mt-4">Official Database</div>
-                    <label className="text-sm mt-2">{tradeData && tradeData['Official_database'] ? tradeData['Official_database'] : '-'}</label>
+                    {/* <div className="text-md font-bold mt-4">Official Database</div>
+                    <label className="text-sm mt-2">{tradeData && tradeData['Official_database'] ? tradeData['Official_database'] : '-'}</label> */}
+
+                    <div className="mt-4">
+                        <a href="http://pericles.ipaustralia.gov.au/ols/auspat/applicationDetails.do?applicationNo=2023901260" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a>
+                    </div>
 
                     <div className="text-md font-bold mt-4">Applicant</div>
                     <label className="text-sm mt-2">{tradeData && tradeData['Applicant'] ? tradeData['Applicant'] : '-'}</label>

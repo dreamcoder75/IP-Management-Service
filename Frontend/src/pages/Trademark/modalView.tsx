@@ -1,13 +1,12 @@
 import ImagePreview from "./ImagePreview";
 import ImageUploader from './ImageUploader';
 import React, {useState} from "react";
-import axios from "axios";
+// import axios from "axios";
 import moment from 'moment';
 import { ReactNotifications } from 'react-notifications-component';
 import CreatableSelect from "react-select/creatable";
+import { differenceInDays } from 'date-fns';
 
-// import { base_URL } from "../../constants/config";
-// import { Store } from "react-notifications-component";
 
 import 'react-notifications-component/dist/theme.css';
 
@@ -23,7 +22,10 @@ const createOption = (label: string) => ({
 
 const defaultJurisdictionOptions = [
     createOption('AU'),
-    createOption('US')
+    createOption('US'),
+    createOption('NZ'),
+    createOption('EU'),
+    createOption('UK')
 ]
 
 const defaultTrademarkfamilyOptions = [
@@ -46,19 +48,15 @@ const defaultIPfirmOptions = [
 
 const modalView = (props : any) => {
     const [reference_no, setReference_no] = useState('');
-
     const [trademarkfamilyOptions, setTrademarkfamilyOptions] = useState(defaultTrademarkfamilyOptions);
     const [trademarkfamily, setTrademarkfamily] = useState<Option | null>();
     const [trademarkno, setTrademarkno] = useState('');
     const [priority_date, setPriority_date] = useState('');
     const [filing_date, setFiling_date] = useState('');
-
     const [jurisdiction, setJurisdiction] = useState<Option | null>();
     const [jurisdictionOptions, setJurisdictionOptions] = useState(defaultJurisdictionOptions);
-
     const [status, setStatus] = useState<Option | null>();
     const [statusOptions, setStatusOptions] = useState(defaultStatusOptions);
-
     const [trademarkRepresentation, setTrademarkRepresentation] = useState<FileList | null>(null);
     const [overseas, setOverseas] = useState('');
     const [convention_Deadline, setConvention_Deadline] = useState('');
@@ -69,20 +67,29 @@ const modalView = (props : any) => {
     const [officeaction, setOfficeaction] = useState('');
     const [dateofofficeaction, setDateofofficeaction] = useState('');
     const [acceptancedeadline, setAcceptancedeadline] = useState('');
-    // const [officialdb, setOfficialdb] = useState('');
+    const [officialdb, setOfficialdb] = useState('');
     const [applicant, setApplicant] = useState('');
     const [applicantaddress, setApplicantaddress] = useState('');
-
     const [ipfirmOptions, setIpfirmOptions] = useState(defaultIPfirmOptions)
     const [ip_firm, setIp_firm] = useState<Option | null>();
-
     const [ip_firm_ref_no, setIp_firm_ref_no] = useState('');
     const [address_for_services, setAddress_for_services] = useState('');
     const [responsible_Attorney, setResponsible_Attorney] = useState<readonly Option[]>([]);
+    const [renewalDeadline, setRenewalDeadline] = useState('');
     const [comments, setComments] = useState('');
     const [costs, setCosts] = useState('');
     const [trademarkfiles, setTrademarkFiles] = useState('');
     const uploadimages = trademarkRepresentation ? [...trademarkRepresentation] : [];
+
+    const [inputoverseasdisable, setInputoverseasdisable] = useState(true);
+    const [inputConventionDeadlinedisable, setInputConventionDeadlinedisable] = useState(true);
+    const [inputExaminationReportdisable, setInputExaminationReportdisable] = useState(true);
+    const [inputFirstExaminationReportdisable, setFirstExaminationReportdisable] = useState(true);
+    const [inputComplianceReportdisable, setInputComplianceReportdisable] = useState(true);
+    const [inputFirstOfficeActiondisable, setInputFirstOffficeActiondisable] = useState(true);
+    const [inputDateFirstComplianceReportdisable, setInputDateFirstComplianceReportdisable] = useState(true);
+    const [inputDateFirstOfficedisabled, setInputDateFirstOfficedisable] = useState(true);
+
 
     const handleReference_noChange = (data : any) =>{
         setReference_no(data);
@@ -93,6 +100,7 @@ const modalView = (props : any) => {
     }
 
     const handleJurisdictionChange = (data : any) => {
+        console.log(data);
         setJurisdiction(data);
     }
 
@@ -101,7 +109,7 @@ const modalView = (props : any) => {
             const newOption = createOption(data);
             setJurisdictionOptions((prev :any) => [...prev, newOption]);
             setJurisdiction(newOption);
-          }, 1000);
+        }, 1000);
     }
 
     const handletrademarkChange = (data : any) => {
@@ -118,14 +126,39 @@ const modalView = (props : any) => {
 
     const handlePriority_DateChange = (data : any) => {
         setPriority_date(data);
+        console.log(data);
+        var current_date = new Date();
+        var priority_date = new Date(data);
+        setInputoverseasdisable(differenceInDays(current_date, priority_date) > 270);
+
     }
 
     const handleFiling_DateChange = (data : any) => {
         setFiling_date(data);
+        if(jurisdiction?.value === 'AU'){
+            var Renewal_deadline = new Date(data);
+            Renewal_deadline.setMonth(Renewal_deadline.getMonth() + 10);
+            setRenewalDeadline(moment(Renewal_deadline).format('YYYY-MM-DD'));
+        }
     }
 
     const handleStatusChange = (data : any) => {
         setStatus(data);
+        setInputoverseasdisable(data.value === "Registered")
+        if(jurisdiction?.value === 'AU' &&  data.value === 'Examined'){
+            setInputExaminationReportdisable(false)
+        }
+        else setInputExaminationReportdisable(true)
+
+        if(jurisdiction?.value === 'NZ' && data.value === 'Examined'){
+            setInputComplianceReportdisable(false)
+        }
+        else setInputComplianceReportdisable(true)
+
+        if((jurisdiction?.value === 'US' || jurisdiction?.value === 'EU') && data.value === 'Examined'){
+            setInputFirstOffficeActiondisable(false)
+        }
+        else setInputFirstOffficeActiondisable(true)
     }
 
     const handleStatusCreate = (data : any) => {
@@ -140,12 +173,18 @@ const modalView = (props : any) => {
         setTrademarkFiles(data);
     }
 
+    const handleRenewalDeadlineChange = (data : any) => {
+        setRenewalDeadline(data);
+    }
+
     const handleTrademarkImageSelected = (data : any) => {
         setTrademarkRepresentation(data);
     }
 
     const handleoverseasChange = (data : any) => {
         setOverseas(data);
+        console.log(data);
+        setInputConventionDeadlinedisable(data !== "Y");
     }
 
     const handleConvention_deadline = (data : any) => {
@@ -154,30 +193,47 @@ const modalView = (props : any) => {
 
     const handleExaminationReportChange = (data : any) => {
         setExaminationReport(data);
+        setFirstExaminationReportdisable(data !== "Y");
     }
 
     const handleDateFirstERChange = (data : any) => {
         setDateofexaminationReport(data);
+        var FirstExamAD = new Date(data);
+        FirstExamAD.setMonth(FirstExamAD.getMonth() + 15);
+        console.log("*********", moment(FirstExamAD).format('YYYY-MM-DD'));
+        setAcceptancedeadline(moment(FirstExamAD).format('YYYY-MM-DD'));
     }
 
     const handleComplianceReport = (data : any) => {
         setComplianceReport(data);
+        setInputDateFirstComplianceReportdisable(data !== "Y");
     }
 
     const handleDateFirstComplianceReport = (data : any ) => {
         setDateofcomplianceReport(data);
+        var FirstComplianceAD = new Date(data);
+        FirstComplianceAD.setMonth(FirstComplianceAD.getMonth() + 12);
+        setAcceptancedeadline(moment(FirstComplianceAD).format('YYYY-MM-DD'));
     }
 
     const handleOfficeAction = (data : any) => {
         setOfficeaction(data);
+        setInputDateFirstOfficedisable(data !== "Y")
     }
 
     const handleDateofFirstOfficeAction = (data : any) => {
         setDateofofficeaction(data);
+        var FirstOfficeAD = new Date(data);
+        FirstOfficeAD.setMonth(FirstOfficeAD.getMonth() + 3);
+        setAcceptancedeadline(moment(FirstOfficeAD).format('YYYY-MM-DD'));
     }
 
     const handleAcceptanceeDeadline = (data : any) => {
         setAcceptancedeadline(data);
+    }
+
+    const handleOfficial_DatabaseChange = (data: any) => {
+        setOfficialdb(data);
     }
 
     const handleApplicantChange = (data : any) => {
@@ -233,7 +289,6 @@ const modalView = (props : any) => {
 
     const handleNewTradeMark = async(e: any) => {
         e.preventDefault();
-
     }
 
     return(
@@ -335,9 +390,11 @@ const modalView = (props : any) => {
                                 Do you wish to file in overseas countries?
                                 </label>
                                 <select className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" 
-                                onChange={(e) => {handleoverseasChange(e.target.value)}}>
-                                    <option defaultValue="Y">Yes</option>
-                                    <option value="N">No</option>
+                                onChange={(e) => {handleoverseasChange(e.target.value)}}
+                                disabled = {inputoverseasdisable}
+                                defaultValue={"N"}>
+                                    <option value="Y">Yes</option>          
+                                    <option value="N">No</option>  
                                 </select>
                             </div>
 
@@ -346,6 +403,7 @@ const modalView = (props : any) => {
                                 <input
                                     type="date"
                                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    disabled = {inputConventionDeadlinedisable}
                                     onChange={(e) => {handleConvention_deadline(e.target.value)}}
                                 />
                             </div>
@@ -353,8 +411,10 @@ const modalView = (props : any) => {
                             <div className="py-2">
                                 <label className="text-sm">Has the First Examination Report been issued?</label>
                                 <select className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" 
-                                onChange={(e) => {handleExaminationReportChange(e.target.value)}}>
-                                    <option defaultValue="Y">Yes</option>
+                                onChange={(e) => {handleExaminationReportChange(e.target.value)}}
+                                defaultValue={"N"}
+                                disabled = {inputExaminationReportdisable}>
+                                    <option value="Y">Yes</option>
                                     <option value="N">No</option>
                                 </select>
                             </div>
@@ -364,14 +424,17 @@ const modalView = (props : any) => {
                                 <input 
                                 type="date"
                                 className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                onChange={(e) => {handleDateFirstERChange(e.target.value)}}/>
+                                onChange={(e) => {handleDateFirstERChange(e.target.value)}}
+                                disabled = {inputFirstExaminationReportdisable}/>
                             </div>
 
                             <div className="py-2">
                                 <label className="text-sm">Has the First Compliance Report been issued?</label>
                                 <select className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" 
-                                onChange={(e) => {handleComplianceReport(e.target.value)}}>
-                                    <option defaultValue="Y">Yes</option>
+                                onChange={(e) => {handleComplianceReport(e.target.value)}}
+                                defaultValue={"N"}
+                                disabled = {inputComplianceReportdisable}>
+                                    <option value="Y">Yes</option>
                                     <option value="N">No</option>
                                 </select>
                             </div>
@@ -381,14 +444,17 @@ const modalView = (props : any) => {
                                 <input 
                                 type="date"
                                 className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                onChange={(e) => {handleDateFirstComplianceReport(e.target.value)}}/>
+                                onChange={(e) => {handleDateFirstComplianceReport(e.target.value)}}
+                                disabled = {inputDateFirstComplianceReportdisable}/>
                             </div>
 
                             <div className="py-2">
                                 <label className="text-sm">Has the First Office Action been issued?</label>
                                 <select className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" 
-                                onChange={(e) => {handleOfficeAction(e.target.value)}}>
-                                    <option defaultValue="Y">Yes</option>
+                                onChange={(e) => {handleOfficeAction(e.target.value)}}
+                                defaultValue={"N"}
+                                disabled = {inputFirstOfficeActiondisable}>
+                                    <option value="Y">Yes</option>
                                     <option value="N">No</option>
                                 </select>
                             </div>
@@ -398,7 +464,8 @@ const modalView = (props : any) => {
                                 <input 
                                 type="date"
                                 className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                onChange={(e) => {handleDateofFirstOfficeAction(e.target.value)}}/>
+                                onChange={(e) => {handleDateofFirstOfficeAction(e.target.value)}}
+                                disabled = {inputDateFirstOfficedisabled}/>
                             </div>
 
                             <div className="py-2">
@@ -406,11 +473,18 @@ const modalView = (props : any) => {
                                 <input 
                                 type="date"
                                 className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                onChange={(e) => {handleAcceptanceeDeadline(e.target.value)}}/>
+                                onChange={(e) => {handleAcceptanceeDeadline(e.target.value)}}
+                                value={acceptancedeadline}/>
                             </div>
 
                             <div className="py-2">
-                                <a href="https://search.ipaustralia.gov.au/trademarks/search/view/2287240?q=tritium+holdings+pty+ltd" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a>
+                                <label className="text-sm">Offical Database</label>
+                                <input
+                                    type="text"
+                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    onChange={(e) => {handleOfficial_DatabaseChange(e.target.value)}}
+                                    />
+                                {/* <a href="https://search.ipaustralia.gov.au/trademarks/search/view/2287240?q=tritium+holdings+pty+ltd" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a> */}
                             </div>
 
                             <div className="py-2">
@@ -478,6 +552,15 @@ const modalView = (props : any) => {
                                     onChange={ (e) => {handleTrademarkfileSelected(e.target.value)}}
                                     multiple
                                 />
+                            </div>
+
+                            <div className="py-2">
+                                <label className="text-sm">Renewal Deadline</label>
+                                <input 
+                                type="date"
+                                className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-4 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                onChange={(e) => {handleRenewalDeadlineChange(e.target.value)}}
+                                value={renewalDeadline}/>
                             </div>
 
                             <div>

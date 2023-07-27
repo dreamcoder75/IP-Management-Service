@@ -14,12 +14,15 @@
     "url": "https://tailadmin.com"
   },
   "dependencies": {
+    "@cyntler/react-doc-viewer": "^1.13.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@material-tailwind/react": "^2.0.4",
+    "@material-tailwind/react": "2.0.4",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/react-notifications-component": "^3.1.1",
     "apexcharts": "^3.37.0",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "jsvectormap": "^1.5.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -29,8 +32,10 @@
     "react-dom": "^18.2.0",
     "react-notifications": "^1.7.4",
     "react-notifications-component": "^4.0.1",
+    "react-redux": "8.1.1",
     "react-router-dom": "^6.8.1",
     "react-select": "^5.7.4",
+    "redux-persist": "6.0.0",
     "sort-by": "^0.0.2"
   },
   "devDependencies": {
