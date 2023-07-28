@@ -10,12 +10,8 @@ import { base_URL } from "../../constants/config";
 import { Store } from "react-notifications-component";
 
 import "react-notifications-component/dist/theme.css";
+// import { ValueContainer } from "react-select/animated";
 // import 'animate.css';
-
-interface Option {
-  readonly label: string;
-  readonly value: string;
-}
 
 const createOption = (label: string) => ({
   label,
@@ -40,438 +36,158 @@ const defaultPatentApptypeOptions = [
 const defaultIPfirmOptions = [createOption("IP Australia")];
 
 const modalView = (props: any) => {
-  const [reference_no, setReference_no] = useState("");
-
-  const [patent_family, setPatent_family] = useState<Option | null>();
+  const [patentValue, setPatentValue] = useState<any>();
   const [patentfamilyOptions, setPatentfamilyOptions] = useState(
     defaultPatentfamilyOptions
   );
-
-  const [application_no, setApplication_no] = useState("");
-  const [jurisdiction, setJurisdiction] = useState<Option | null>();
   const [jurisdictionOptions, setJurisdictionOptions] = useState(
     defaultJurisdictionOptions
   );
-
-  const [invention_title, setInvention_title] = useState("");
-  const [abstract, setAbstract] = useState("");
-  const [earliest_Priority_Date, setEarliest_Priority_Date] = useState("");
-
-  const [patent_Application_Type, setPatent_Application_Type] =
-    useState<Option | null>();
   const [patentApptypeOptions, setPatentApptypeOptions] = useState(
     defaultPatentApptypeOptions
   );
-
-  const [complete_Application_Deadline, setComplete_Application_Deadline] =
-    useState("");
-  const [international_Filing_Date, setInternational_Filing_Date] =
-    useState("");
-  const [pct_Application_No, setPCT_Application_No] = useState("");
-  const [priority_Application, setPriority_Application] = useState("");
-  const [wipo_Database, setWIPO_Database] = useState("");
-  const [national_Phase_Deadline, setNational_Phase_Deadline] = useState("");
-  const [convention_Deadline, setConvention_Deadline] = useState("");
-  const [status, setStatus] = useState("Pending Filing");
-  const [application_Phase, setApplication_Phase] = useState(
-    "International Phase"
-  );
-  const [published, setPublished] = useState("Yes");
-  const [publication_Date, setPublication_Date] = useState("");
-  const [publication_No, setPublication_No] = useState("");
-  const [inventors, setInventors] = useState<readonly Option[]>([]);
-
-  const [official_Database, setOfficial_Database] = useState("");
-  const [applicant, setApplicant] = useState("");
-  const [applicant_address, setApplicant_address] = useState("");
-
   const [ipfirmOptions, setIpfirmsOptions] = useState(defaultIPfirmOptions);
-  const [ip_firm, setIp_firm] = useState<Option | null>();
-  const [ip_firm_ref_no, setIp_firm_ref_no] = useState("");
-  const [address_for_services, setAddress_for_services] = useState("");
-  const [responsible_Attorney, setResponsible_Attorney] = useState<
-    readonly Option[]
-  >([]);
-  const [patent_Anniversary, setPatent_Anniversary] = useState("");
-  const [next_Renewal, setNext_Renewal] = useState("");
-  const [deadlines, setDeadlines] = useState("");
-  const [comments, setComments] = useState("");
-  const [costs, setCosts] = useState("");
+  const optionValues = Array.from({ length: 20 }, (_, index) => index + 1);
 
+  const [inputANdisabled, setInputANdisabled] = useState(false);
   const [inputPCTANdisabled, setInputPCTANdisabled] = useState(true);
   const [inputPAdisabled, setInputPAdisabled] = useState(true);
-  const [inputWIPOdisabled, setInputWIPOdisabled] = useState(true);
   const [inputIFDdisabled, setInputIFDdisabled] = useState(true);
   const [inputNPDdisabled, setInputNPDdisabled] = useState(true);
   const [inputNRdisabled, setInputNRdisabled] = useState(false);
-
   const [inputPDdisable, setInputPDdisable] = useState(true);
   const [inputPNdisable, setInputPNdisable] = useState(true);
+  const [inputWIPOdisabled, setInputWIPOdisabled] = useState(true);
+  const [inputSNPDdisabled, setInputSNPDdisabled] = useState(true);
 
-  const [errorMessage, setErrorMessage] = useState({
-    reference_no: "",
-    Application_no: "",
-  });
+  const [images, setImages] = useState<FileList | null>(null);
+  const [attachments, setAttachments] = useState<FileList | null>(null);
+  const [invoices, setInvoices] = useState<FileList | null>(null);
 
-  const validateInput = (type: any, value: any) => {
-    if (type === "reference_no" && value.length < 1)
-      setErrorMessage({
-        ...errorMessage,
-        reference_no: "Input must be at least 1 characters long.",
-      });
-    if (type === "Application_no" && value.length < 1)
-      setErrorMessage({
-        ...errorMessage,
-        Application_no: "Input must be at least 1 characters long.",
-      });
-  };
-
-  const handleReference_noChange = (data: any) => {
-    setReference_no(data);
-    validateInput("reference_no", data);
-  };
-
-  const handlePatent_familyChange = (data: any) => {
-    setPatent_family(data);
-  };
+  const uploadimages = images ? [...images] : [];
+  const uploadattachments = attachments ? [...attachments] : [];
+  const uploadinvoices = invoices ? [...invoices] : [];
 
   const handlePatent_familyCreate = (data: any) => {
     setTimeout(() => {
       const newOption = createOption(data);
       setPatentfamilyOptions((prev: any) => [...prev, newOption]);
-      setPatent_family(newOption);
+      setPatentValue({ ...patentValue, Patent_family: newOption.value });
     }, 1000);
-  };
 
-  const handleApplication_noChange = (data: any) => {
-    setApplication_no(data);
-    validateInput("Application_no", data);
+    console.log("*********", patentValue);
   };
 
   const handleJurisdictionCreate = (data: any) => {
     setTimeout(() => {
       const newOption = createOption(data);
       setJurisdictionOptions((prev: any) => [...prev, newOption]);
-      setJurisdiction(newOption);
+      setPatentValue({ ...patentValue, Jurisdiction: newOption.value });
     }, 1000);
-  };
-
-  const handleJurisdictionChange = (data: any) => {
-    setJurisdiction(data);
-  };
-
-  const handleInvention_title = (data: any) => {
-    setInvention_title(data);
-  };
-
-  const handleAbstractChange = (data: any) => {
-    setAbstract(data);
-  };
-
-  const handleEarliest_Priority_DateChange = (data: any) => {
-    setEarliest_Priority_Date(data);
-    var Complete_Application_Deadline = new Date(data);
-    // originDate.setMonth(originDate.getMonth() + 30);
-    Complete_Application_Deadline.setFullYear(
-      Complete_Application_Deadline.getFullYear() + 1
-    );
-    setComplete_Application_Deadline(
-      moment(Complete_Application_Deadline).format("YYYY-MM-DD")
-    );
-
-    var Convention_Deadline = new Date(data);
-    Convention_Deadline.setFullYear(Convention_Deadline.getFullYear() + 1);
-    setConvention_Deadline(moment(Convention_Deadline).format("YYYY-MM-DD"));
-
-    if (jurisdiction?.value === "AU") {
-      var National_Phase_Deadline = new Date(data);
-      National_Phase_Deadline.setMonth(National_Phase_Deadline.getMonth() + 30);
-      setNational_Phase_Deadline(
-        moment(National_Phase_Deadline).format("YYYY-MM-DD")
-      );
-    } else if (jurisdiction?.value === "US") {
-      var National_Phase_Deadline = new Date(data);
-      National_Phase_Deadline.setMonth(National_Phase_Deadline.getMonth() + 31);
-      setNational_Phase_Deadline(
-        moment(National_Phase_Deadline).format("YYYY-MM-DD")
-      );
-    }
   };
 
   const handlePatent_Application_TypeCreate = (data: any) => {
     setTimeout(() => {
       const newOption = createOption(data);
       setPatentApptypeOptions((prev: any) => [...prev, newOption]);
-      setPatent_Application_Type(newOption);
+      setPatentValue({
+        ...patentValue,
+        Patent_Application_Type: newOption.value,
+      });
     }, 500);
-  };
-
-  const handlePatent_Application_TypeChange = (data: any) => {
-    setPatent_Application_Type(data);
-    setInputPCTANdisabled(data.value !== "PCT");
-    setInputPAdisabled(data.value === "Provisional");
-    setInputWIPOdisabled(data.value !== "PCT");
-    setInputIFDdisabled(data.value !== "PCT");
-    setInputNPDdisabled(data.value !== "PCT");
-    setInputNRdisabled(data.value === "Provisional");
-  };
-
-  const handleInternational_Filing_DateChange = (data: any) => {
-    setInternational_Filing_Date(data);
-    var next_Renewal = new Date(data);
-    next_Renewal.setFullYear(next_Renewal.getFullYear() + 4);
-    setNext_Renewal(moment(next_Renewal).format("YYYY-MM-DD"));
-  };
-
-  const handlePCT_Application_NoChange = (data: any) => {
-    setPCT_Application_No(data);
-  };
-
-  const handlePriority_ApplicationChange = (data: any) => {
-    setPriority_Application(data);
-  };
-
-  const handleWIPO_DatabaseChange = (data: any) => {
-    setWIPO_Database(data);
-  };
-
-  const handleStatusChange = (data: any) => {
-    setStatus(data);
-  };
-
-  const handleApplication_PhaseChange = (data: any) => {
-    setApplication_Phase(data);
-  };
-
-  const handlePublishedChange = (data: any) => {
-    setPublished(data);
-    setInputPDdisable(data !== "Yes");
-    setInputPNdisable(data !== "Yes");
-  };
-
-  const handlePublication_DateChange = (data: any) => {
-    setPublication_Date(data);
-  };
-
-  const handlePublication_NoChange = (data: any) => {
-    setPublication_No(data);
-  };
-
-  const handleInventorsChange = (newValue: any, actionMeta: any) => {
-    if (actionMeta.action === "create-option") {
-      const newOption = {
-        value: actionMeta.option.label,
-        label: actionMeta.option.label,
-      };
-      setInventors((prevSelectedOptions) => [
-        ...prevSelectedOptions,
-        newOption,
-      ]);
-    } else {
-      setInventors(newValue);
-    }
-  };
-
-  const handleOfficial_DatabaseChange = (data: any) => {
-    setOfficial_Database(data);
-  };
-
-  const handleApplicantChange = (data: any) => {
-    setApplicant(data);
-  };
-
-  const handleApplicant_addressChange = (data: any) => {
-    setApplicant_address(data);
-  };
-
-  const handleIP_FirmChange = (data: any) => {
-    setIp_firm(data);
   };
 
   const handleIP_FirmCreate = (data: any) => {
     setTimeout(() => {
       const newOption = createOption(data);
       setIpfirmsOptions((prev: any) => [...prev, newOption]);
-      setIp_firm(newOption);
+      setPatentValue({ ...patentValue, IP_Firm: newOption.value });
     }, 1000);
-  };
-
-  const handleIP_Firm_Reference_NoChange = (data: any) => {
-    setIp_firm_ref_no(data);
-  };
-
-  const handleAddress_for_servicesChange = (data: any) => {
-    setAddress_for_services(data);
-  };
-
-  const handleResponsible_AttorneyChange = (data: any, actionMeta: any) => {
-    // setResponsible_Attorney(data);
-
-    if (actionMeta.action === "create-option") {
-      const newOption = {
-        value: actionMeta.option.label,
-        label: actionMeta.option.label,
-      };
-      setResponsible_Attorney((prevSelectedOptions) => [
-        ...prevSelectedOptions,
-        newOption,
-      ]);
-    } else {
-      setResponsible_Attorney(data);
-    }
-  };
-
-  const handlePatent_AnniversaryChange = (data: any) => {
-    setPatent_Anniversary(data);
-  };
-
-  const handleNext_RenewalChange = (data: any) => {
-    setNext_Renewal(data);
-  };
-
-  const handleDeadlinesChange = (data: any) => {
-    setDeadlines(data);
-  };
-
-  const handleCommentsChange = (data: any) => {
-    setComments(data);
-  };
-
-  const handleCostsChange = (data: any) => {
-    setCosts(data);
-  };
-
-  const [images, setImages] = useState<FileList | null>(null);
-  const [attachments, setAttachments] = useState<FileList | null>(null);
-  const [invoices, setInvoices] = useState<FileList | null>(null);
-  const uploadimages = images ? [...images] : [];
-  const uploadattachments = attachments ? [...attachments] : [];
-  const uploadinvoices = invoices ? [...invoices] : [];
-
-  const handleAttachmentsSelected = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setAttachments(e.target.files);
-  };
-
-  const handleInvoicesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInvoices(e.target.files);
-  };
-
-  const handleimageSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImages(e.target.files);
   };
 
   const handleNewPatent = async (e: any) => {
     e.preventDefault();
-    validateInput("reference_no", reference_no);
+    console.log("$$$$$$$$$$$$$$$$$", patentValue);
+    const patentData = new FormData();
+    uploadattachments.forEach((attachments) => {
+      patentData.append(`attachments`, attachments, attachments.name);
+    });
 
-    console.log("+++++++++++++", complete_Application_Deadline);
-    if (reference_no.length > 0 && application_no.length > 0) {
-      const formData = new FormData();
-      uploadattachments.forEach((attachments) => {
-        formData.append(`attachments`, attachments, attachments.name);
+    uploadimages.forEach((image) => {
+      patentData.append(`images`, image, image.name);
+    });
+
+    uploadinvoices.forEach((invoices) => {
+      patentData.append(`invoices`, invoices, invoices.name);
+    });
+
+    Object.entries(patentValue).forEach((item: any) => {
+      console.log(item);
+
+      if (typeof item === "object") {
+        if (item[0] === "Inventors") {
+          const convertInventorsString = item[1]
+            .map((value: any) => JSON.stringify(value))
+            .join("/*/");
+          console.log(convertInventorsString);
+          patentData.append(item[0], convertInventorsString);
+        } else if (item[0] === "Responsible_Attorney") {
+          const convertRAString = item[1]
+            .map((value: any) => JSON.stringify(value))
+            .join("/*/");
+          console.log("@@@@@@@@@@@@@@@@", convertRAString);
+          patentData.append(item[0], convertRAString);
+        } else patentData.append(item[0], item[1]);
+      } else {
+        patentData.append(item[0], item[1]);
+      }
+    });
+
+    console.log("++++++++++++++++++", patentData);
+    axios
+      .post(`${base_URL}/patent/newPatents`, patentData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.status);
+        if (res.status == 200) {
+          Store.addNotification({
+            title: "Success",
+            message: "New Patent was Created Successfully",
+            type: "success",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            width: 300,
+            dismiss: {
+              duration: 1000,
+              onScreen: true,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.status);
+        if (err.response.status == 422) {
+          Store.addNotification({
+            title: "Warning",
+            message: "This Patent is already created!",
+            type: "warning",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            width: 300,
+            dismiss: {
+              duration: 1000,
+              onScreen: true,
+            },
+          });
+        }
       });
-
-      uploadimages.forEach((image) => {
-        formData.append(`images`, image, image.name);
-      });
-
-      uploadinvoices.forEach((invoices) => {
-        formData.append(`invoices`, invoices, invoices.name);
-      });
-
-      formData.append("attachmentnumber", uploadattachments.length.toString());
-      formData.append("imagenumber", uploadimages.length.toString());
-      formData.append("invoicenumber", uploadinvoices.length.toString());
-      formData.append("Reference_no", reference_no);
-      formData.append("Patent_family", JSON.stringify(patent_family));
-      formData.append("Application_no", application_no);
-      formData.append("Jurisdiction", JSON.stringify(jurisdiction));
-      formData.append("Invention_title", invention_title);
-      formData.append("Abstract", abstract);
-      formData.append("Earliest_Priority_Date", earliest_Priority_Date);
-      formData.append(
-        "Patent_Application_Type",
-        JSON.stringify(patent_Application_Type)
-      );
-      formData.append(
-        "Complete_Application_Deadline",
-        complete_Application_Deadline
-      );
-      formData.append("International_Filing_Date", international_Filing_Date);
-      formData.append("PCT_Application_No", pct_Application_No);
-      formData.append("Priority_Application", priority_Application);
-      formData.append("WIPO_Database", wipo_Database);
-      formData.append("National_Phase_Deadline", national_Phase_Deadline);
-      formData.append("Convention_Deadline", convention_Deadline);
-      formData.append("Status", status);
-      formData.append("Application_Phase", application_Phase);
-      formData.append("Published", published);
-      formData.append("Publication_Date", publication_Date);
-      formData.append("Publication_No", publication_No);
-      formData.append("Inventors", JSON.stringify(inventors));
-      formData.append("Official_Database", official_Database);
-      formData.append("Applicant", applicant);
-      formData.append("Applicant_address", applicant_address);
-      formData.append("IP_Firm", JSON.stringify(ip_firm));
-      formData.append("IP_Firm_Reference_No", ip_firm_ref_no);
-      formData.append("Address_for_services", address_for_services);
-      formData.append(
-        "Responsible_Attorney",
-        JSON.stringify(responsible_Attorney)
-      );
-      formData.append("Patent_Anniversary", patent_Anniversary);
-      formData.append("Next_Renewal", next_Renewal);
-      formData.append("Deadlines", deadlines);
-      formData.append("Comments", comments);
-      formData.append("Costs", costs);
-
-      axios
-        .post(`${base_URL}/patent/newPatents`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          console.log(res.status);
-          if (res.status == 200) {
-            Store.addNotification({
-              title: "Success",
-              message: "New Patent was Created Successfully",
-              type: "success",
-              insert: "top",
-              container: "top-center",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              width: 300,
-              dismiss: {
-                duration: 1000,
-                onScreen: true,
-              },
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err.response.status);
-          if (err.response.status == 422) {
-            Store.addNotification({
-              title: "Warning",
-              message: "This Patent is already created!",
-              type: "warning",
-              insert: "top",
-              container: "top-center",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              width: 300,
-              dismiss: {
-                duration: 1000,
-                onScreen: true,
-              },
-            });
-          }
-        });
-    }
   };
 
   return (
@@ -494,12 +210,13 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleReference_noChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Reference_no: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Reference_no || ""}
                   />
-                  {errorMessage.reference_no && (
-                    <p className=" text-danger">{errorMessage.reference_no}</p>
-                  )}
                 </div>
 
                 <div className="py-2">
@@ -509,14 +226,14 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     // disabled
                     onChange={(e) => {
-                      handleApplication_noChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Application_no: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Application_no || ""}
+                    disabled={inputANdisabled}
                   />
-                  {errorMessage.Application_no && (
-                    <p className=" text-danger">
-                      {errorMessage.Application_no}
-                    </p>
-                  )}
                 </div>
 
                 <div className="py-2">
@@ -524,9 +241,21 @@ const modalView = (props: any) => {
                   <CreatableSelect
                     options={patentfamilyOptions}
                     isClearable
-                    onChange={handlePatent_familyChange}
+                    onChange={(newValue: any) => {
+                      setPatentValue({
+                        ...patentValue,
+                        Patent_family: newValue?.value,
+                      });
+                    }}
                     onCreateOption={handlePatent_familyCreate}
-                    value={patent_family}
+                    value={
+                      patentValue?.Patent_family
+                        ? {
+                            label: patentValue.Patent_family,
+                            value: patentValue.Patent_family,
+                          }
+                        : ""
+                    }
                   />
                 </div>
 
@@ -534,9 +263,23 @@ const modalView = (props: any) => {
                   <label className="text-sm">Jurisdiction</label>
                   <CreatableSelect
                     options={jurisdictionOptions}
-                    onChange={handleJurisdictionChange}
+                    onChange={
+                      // handleJurisdictionChange
+                      (newValue: any) =>
+                        setPatentValue({
+                          ...patentValue,
+                          Jurisdiction: newValue?.value,
+                        })
+                    }
                     onCreateOption={handleJurisdictionCreate}
-                    value={jurisdiction}
+                    value={
+                      patentValue?.Jurisdiction
+                        ? {
+                            label: patentValue.Jurisdiction,
+                            value: patentValue.Jurisdiction,
+                          }
+                        : ""
+                    }
                     placeholder="Select or create an Jurisdiction..."
                   />
                 </div>
@@ -547,8 +290,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition  focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleInvention_title(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Invention_title: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Invention_title || ""}
                   />
                 </div>
 
@@ -556,7 +303,9 @@ const modalView = (props: any) => {
                   <label className="text-sm">Patent Figures</label>
                   <ImageUploader
                     accept="image/png, image/jpeg"
-                    onChange={handleimageSelected}
+                    onChange={(e) => {
+                      setImages(e.target.files);
+                    }}
                     multiple
                   />
                   <ImagePreview images={uploadimages} />
@@ -568,8 +317,12 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     placeholder="Your message... "
                     onChange={(e) => {
-                      handleAbstractChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Abstract: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Abstract || ""}
                   ></textarea>
                 </div>
 
@@ -579,8 +332,18 @@ const modalView = (props: any) => {
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleEarliest_Priority_DateChange(e.target.value);
+                      var newDate = new Date(e.target.value);
+                      newDate.setMonth(newDate.getMonth() + 12);
+                      setPatentValue({
+                        ...patentValue,
+                        Earliest_Priority_Date: e.target.value,
+                        Complete_Application_Deadline:
+                          moment(newDate).format("YYYY-MM-DD"),
+                        Convention_Deadline:
+                          moment(newDate).format("YYYY-MM-DD"),
+                      });
                     }}
+                    value={patentValue?.Earliest_Priority_Date || ""}
                   />
                 </div>
 
@@ -588,9 +351,40 @@ const modalView = (props: any) => {
                   <label className="text-sm">Patent Application Type </label>
                   <CreatableSelect
                     options={patentApptypeOptions}
-                    onChange={handlePatent_Application_TypeChange}
+                    onChange={(newValue: any) => {
+                      setPatentValue({
+                        ...patentValue,
+                        Patent_Application_Type: newValue.value,
+                      });
+                      if (newValue.value === "PCT") {
+                        setInputANdisabled(true);
+                        setInputIFDdisabled(false);
+                        setInputPCTANdisabled(false);
+                        setInputWIPOdisabled(false);
+                        setInputSNPDdisabled(false);
+                      } else {
+                        setInputANdisabled(false);
+                        setInputIFDdisabled(true);
+                        setInputPCTANdisabled(true);
+                        setInputWIPOdisabled(true);
+                        setInputSNPDdisabled(true);
+                      }
+
+                      if (newValue.value === "Provisional") {
+                        setInputPAdisabled(true);
+                      } else {
+                        setInputPAdisabled(false);
+                      }
+                    }}
                     onCreateOption={handlePatent_Application_TypeCreate}
-                    value={patent_Application_Type}
+                    value={
+                      patentValue?.Patent_Application_Type
+                        ? {
+                            label: patentValue.Patent_Application_Type,
+                            value: patentValue.Patent_Application_Type,
+                          }
+                        : ""
+                    }
                     placeholder="Select or create an Patent Application Type..."
                   />
                 </div>
@@ -602,9 +396,14 @@ const modalView = (props: any) => {
                   <input
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    // onChange={(e) => {handleComplete_Application_DeadlineChange(e.target.value)}}
-                    value={complete_Application_Deadline}
+                    // onChange={(e) => {
+                    //   setPatentValue({
+                    //     ...patentValue,
+                    //     Complete_Application_Deadline: e.target.value,
+                    //   });
+                    // }}
                     readOnly
+                    value={patentValue?.Complete_Application_Deadline || ""}
                   />
                 </div>
 
@@ -615,8 +414,12 @@ const modalView = (props: any) => {
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputIFDdisabled}
                     onChange={(e) => {
-                      handleInternational_Filing_DateChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        International_Filing_Date: e.target.value,
+                      });
                     }}
+                    value={patentValue?.International_Filing_Date || ""}
                   />
                 </div>
 
@@ -627,8 +430,12 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputPCTANdisabled}
                     onChange={(e) => {
-                      handlePCT_Application_NoChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        PCT_Application_No: e.target.value,
+                      });
                     }}
+                    value={patentValue?.PCT_Application_No || ""}
                   />
                 </div>
 
@@ -639,8 +446,12 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputPAdisabled}
                     onChange={(e) => {
-                      handlePriority_ApplicationChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Priority_Application: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Priority_Application || ""}
                   />
                 </div>
 
@@ -651,20 +462,60 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputWIPOdisabled}
                     onChange={(e) => {
-                      handleWIPO_DatabaseChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        WIPO_Database: e.target.value,
+                      });
                     }}
+                    value={patentValue?.WIPO_Database || ""}
                   />
                 </div>
 
                 <div className="py-2">
                   <label className="text-sm">National Phase Deadline</label>
-                  <input
-                    type="date"
-                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    disabled={inputNPDdisabled}
-                    value={national_Phase_Deadline}
-                    readOnly
-                  />
+                  <div className="flex">
+                    <input
+                      type="date"
+                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      disabled={inputNPDdisabled}
+                      readOnly
+                      // onChange={(e) => {
+                      //   setPatentValue({
+                      //     ...patentValue,
+                      //     National_Phase_Deadline: e.target.value,
+                      //   });
+                      // }}
+                      value={patentValue?.National_Phase_Deadline || ""}
+                    />
+
+                    <select
+                      id="period"
+                      className=" w-20 rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      defaultValue={"30"}
+                      disabled={inputSNPDdisabled}
+                      onChange={(e) => {
+                        var NPD = new Date(patentValue?.Earliest_Priority_Date);
+                        if (e.target.value === "30") {
+                          NPD.setMonth(NPD.getMonth() + 30);
+                          setPatentValue({
+                            ...patentValue,
+                            National_Phase_Deadline:
+                              moment(NPD).format("YYYY-MM-DD"),
+                          });
+                        } else {
+                          NPD.setMonth(NPD.getMonth() + 31);
+                          setPatentValue({
+                            ...patentValue,
+                            National_Phase_Deadline:
+                              moment(NPD).format("YYYY-MM-DD"),
+                          });
+                        }
+                      }}
+                    >
+                      <option value="30">30</option>
+                      <option value="31">31</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="py-2">
@@ -672,8 +523,14 @@ const modalView = (props: any) => {
                   <input
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    value={convention_Deadline}
                     readOnly
+                    // onChange={(e) => {
+                    //   setPatentValue({
+                    //     ...patentValue,
+                    //     Convention_Deadline: e.target.value,
+                    //   });
+                    // }}
+                    value={patentValue?.Convention_Deadline || ""}
                   />
                 </div>
 
@@ -683,12 +540,14 @@ const modalView = (props: any) => {
                     id="Status"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleStatusChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Status: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Status || ""}
                   >
-                    <option defaultValue="Pending Filing">
-                      Pending Filing
-                    </option>
+                    <option value="Pending Filing">Pending Filing</option>
                     <option value="Filed">Filed</option>
                     <option value="Granted">Granted</option>
                     <option value="Lapsed">Lapsed</option>
@@ -701,10 +560,14 @@ const modalView = (props: any) => {
                     id="Application Phase"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleApplication_PhaseChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Application_Phase: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Application_Phase || ""}
                   >
-                    <option defaultValue="International Phase">
+                    <option value="International Phase">
                       International Phase
                     </option>
                     <option value="National Phase">National Phase</option>
@@ -723,8 +586,19 @@ const modalView = (props: any) => {
                     id="Published"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handlePublishedChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Published: e.target.value,
+                      });
+                      // if (e.target.value === "Yes") {
+                      //   setInputPDdisable(false);
+                      //   setInputPNdisable(false);
+                      // } else {
+                      //   setInputPDdisable(true);
+                      //   setInputPNdisable(true);
+                      // }
                     }}
+                    value={patentValue?.Published || ""}
                   >
                     <option defaultValue="Yes">Yes</option>
                     <option value="No">No</option>
@@ -737,9 +611,13 @@ const modalView = (props: any) => {
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handlePublication_DateChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Publication_Date: e.target.value,
+                      });
                     }}
-                    disabled={inputPDdisable}
+                    value={patentValue?.Publication_Date || ""}
+                    disabled={patentValue?.Published === "No"}
                   />
                 </div>
 
@@ -749,9 +627,13 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handlePublication_NoChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Publication_No: e.target.value,
+                      });
                     }}
-                    disabled={inputPNdisable}
+                    value={patentValue?.Publication_No || ""}
+                    disabled={patentValue?.Published === "No"}
                   />
                 </div>
 
@@ -759,8 +641,14 @@ const modalView = (props: any) => {
                   <label className="text-sm">Inventors</label>
                   <CreatableSelect
                     isMulti
-                    value={inventors}
-                    onChange={handleInventorsChange}
+                    onChange={(newValue: any) => {
+                      console.log(newValue);
+                      setPatentValue({
+                        ...patentValue,
+                        Inventors: newValue,
+                      });
+                    }}
+                    value={patentValue?.Inventors || ""}
                     isClearable
                     placeholder="Select inventors..."
                   />
@@ -772,10 +660,13 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleOfficial_DatabaseChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Official_Database: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Official_Database || ""}
                   />
-                  {/* <a href="http://pericles.ipaustralia.gov.au/ols/auspat/applicationDetails.do?applicationNo=2023901260" className="bg-meta-3 text-white px-4 py-2 rounded inline-block hover:bg-blue-800">Offical Database</a> */}
                 </div>
 
                 <div className="py-2">
@@ -784,8 +675,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleApplicantChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Applicant: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Applicant || ""}
                   />
                 </div>
 
@@ -795,8 +690,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleApplicant_addressChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Applicant_address: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Applicant_address || ""}
                   />
                 </div>
 
@@ -804,9 +703,21 @@ const modalView = (props: any) => {
                   <label className="text-sm">IP Firm</label>
                   <CreatableSelect
                     options={ipfirmOptions}
-                    onChange={handleIP_FirmChange}
+                    onChange={(newValue: any) => {
+                      setPatentValue({
+                        ...patentValue,
+                        IP_Firm: newValue.value,
+                      });
+                    }}
                     onCreateOption={handleIP_FirmCreate}
-                    value={ip_firm}
+                    value={
+                      patentValue?.IP_Firm
+                        ? {
+                            label: patentValue.IP_Firm,
+                            value: patentValue.IP_Firm,
+                          }
+                        : ""
+                    }
                     placeholder="Select or create an IP Firm..."
                   />
                 </div>
@@ -817,8 +728,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleIP_Firm_Reference_NoChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        IP_Firm_Reference_No: e.target.value,
+                      });
                     }}
+                    value={patentValue?.IP_Firm_Reference_No || ""}
                   />
                 </div>
 
@@ -828,8 +743,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleAddress_for_servicesChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Address_for_services: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Address_for_services || ""}
                   />
                 </div>
 
@@ -837,22 +756,60 @@ const modalView = (props: any) => {
                   <label className="text-sm">Responsible Attorney</label>
                   <CreatableSelect
                     isMulti
-                    value={responsible_Attorney}
-                    onChange={handleResponsible_AttorneyChange}
+                    onChange={(newValue) => {
+                      setPatentValue({
+                        ...patentValue,
+                        Responsible_Attorney: newValue,
+                      });
+                    }}
                     isClearable
+                    value={patentValue?.Responsible_Attorney || ""}
                     placeholder="Select Responsible Attorney..."
                   />
                 </div>
 
                 <div className="py-2">
                   <label className="text-sm">Patent Anniversary</label>
-                  <input
-                    type="date"
-                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px]   border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    onChange={(e) => {
-                      handlePatent_AnniversaryChange(e.target.value);
-                    }}
-                  />
+                  <div className="flex">
+                    <input
+                      type="date"
+                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px]   border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      // onChange={(e) => {
+                      //   setPatentValue({
+                      //     ...patentValue,
+
+                      //   });
+                      // }}
+                      readOnly
+                      value={patentValue?.Patent_Anniversary || ""}
+                    />
+
+                    <select
+                      id="Patent_Anniversary"
+                      className="w-20 rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      onChange={(e) => {
+                        var PA = new Date(
+                          patentValue?.International_Filing_Date
+                        );
+                        const selectedValue = parseInt(e.target.value, 10);
+                        const monthsToAdd = selectedValue * 12;
+                        PA.setMonth(PA.getMonth() + monthsToAdd);
+                        console.log("#$^$%0", PA);
+                        setPatentValue({
+                          ...patentValue,
+                          Patent_Anniversary_Period: e.target.value,
+                          Patent_Anniversary: moment(PA).format("YYYY-MM-DD"),
+                        });
+                      }}
+                      value={patentValue?.Patent_Anniversary_Period}
+                    >
+                      {optionValues.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div className="py-2">
@@ -861,10 +818,13 @@ const modalView = (props: any) => {
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputNRdisabled}
-                    value={next_Renewal}
                     onChange={(e) => {
-                      handleNext_RenewalChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Next_Renewal: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Next_Renewal || ""}
                   />
                 </div>
 
@@ -874,8 +834,12 @@ const modalView = (props: any) => {
                     type="date"
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
-                      handleDeadlinesChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Deadlines: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Deadlines || ""}
                   />
                 </div>
 
@@ -885,8 +849,12 @@ const modalView = (props: any) => {
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     placeholder="Your message... "
                     onChange={(e) => {
-                      handleCommentsChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Comments: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Comments || ""}
                   ></textarea>
                 </div>
 
@@ -896,8 +864,12 @@ const modalView = (props: any) => {
                     type="text"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-4 py-2 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary "
                     onChange={(e) => {
-                      handleCostsChange(e.target.value);
+                      setPatentValue({
+                        ...patentValue,
+                        Costs: e.target.value,
+                      });
                     }}
+                    value={patentValue?.Costs || ""}
                   />
                 </div>
 
@@ -905,7 +877,9 @@ const modalView = (props: any) => {
                   <label className="text-sm">Attachments</label>
                   <ImageUploader
                     accept="file/*"
-                    onChange={handleAttachmentsSelected}
+                    onChange={(e) => {
+                      setAttachments(e.target.files);
+                    }}
                     multiple
                   />
                 </div>
@@ -914,7 +888,9 @@ const modalView = (props: any) => {
                   <label className="text-sm">Invoices</label>
                   <ImageUploader
                     accept="file/*"
-                    onChange={handleInvoicesSelected}
+                    onChange={(e) => {
+                      setInvoices(e.target.files);
+                    }}
                     multiple
                   />
                 </div>

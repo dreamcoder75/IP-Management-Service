@@ -7,7 +7,7 @@ export const counterSlice = createSlice({
   reducers: {
     setTestCount: (state: any, action: any) => {
       console.log("redux setUnReadChatCnt", action.payload);
-      state.unReadChatCnt = action.payload;
+      state.unReadChatCnt = action?.payload;
     },
   },
 });

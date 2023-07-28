@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import { Card } from "@material-tailwind/react";
+import { Card } from "@material-tailwind/react";
 import axios from "axios";
 // import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
@@ -26,9 +26,7 @@ const mainView = () => {
 
           <div className="text-md mt-4 font-bold">Patent family</div>
           <label className="mt-2 text-sm">
-            {pData && pData["Patent_family"][0]["value"]
-              ? pData["Patent_family"][0]["value"]
-              : "-"}
+            {pData && pData["Patent_family"] ? pData["Patent_family"] : "-"}
           </label>
 
           <div className="text-md mt-4 font-bold">Application No</div>
@@ -38,9 +36,7 @@ const mainView = () => {
 
           <div className="text-md mt-4 font-bold">Jurisdiction</div>
           <label className="mt-2 text-sm">
-            {pData && pData["Jurisdiction"][0]["value"]
-              ? pData["Jurisdiction"][0]["value"]
-              : "-"}
+            {pData && pData["Jurisdiction"] ? pData["Jurisdiction"] : "-"}
           </label>
 
           <div className="text-md mt-4 font-bold">Invention title</div>
@@ -55,8 +51,8 @@ const mainView = () => {
 
           <div className="text-md mt-4 font-bold">Patent_Application_Type</div>
           <label className="mt-2 text-sm">
-            {pData && pData["Patent_Application_Type"][0]["value"]
-              ? pData["Patent_Application_Type"][0]["value"]
+            {pData && pData["Patent_Application_Type"]
+              ? pData["Patent_Application_Type"]
               : "-"}
           </label>
 
@@ -161,9 +157,7 @@ const mainView = () => {
 
           <div className="text-md mt-4 font-bold">IP_Firm</div>
           <label className="mt-2 text-sm">
-            {pData && pData["IP_Firm"][0]["value"]
-              ? pData["IP_Firm"][0]["value"]
-              : "-"}
+            {pData && pData["IP_Firm"] ? pData["IP_Firm"] : "-"}
           </label>
 
           <div className="text-md mt-4 font-bold">IP_Firm_Reference_No</div>
@@ -330,6 +324,7 @@ const mainView = () => {
     var result = pAllData.filter((obj: any) => {
       return obj["_id"] === _id;
     });
+    console.log(result[0]);
     setPData(result[0]);
   };
 
@@ -343,59 +338,61 @@ const mainView = () => {
         className="round-xl min-h-100 flex overflow-y-auto pt-3 dark:bg-boxdark"
         style={{ minHeight: "100vh" }}
       >
-        {/* <Card className="min-h-100 w-80 overflow-y-auto shadow-xl dark:bg-boxdark"> */}
-        <div className="items-center justify-center p-2">
-          <span className="ml-4 flex space-y-2" onClick={toggleModal}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            Insert Record
-          </span>
-          {isModalOpen && (
-            <ModalView isOpen={isModalOpen} setToggleModal={toggleModal} />
-          )}
-        </div>
+        <Card className="min-h-100 w-80 overflow-y-auto shadow-xl dark:bg-boxdark">
+          <div className="items-center justify-center p-2">
+            <span className="ml-4 flex space-y-2" onClick={toggleModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              Insert Record
+            </span>
+            {isModalOpen && (
+              <ModalView isOpen={isModalOpen} setToggleModal={toggleModal} />
+            )}
+          </div>
 
-        <ul className="list-none space-y-2 p-0">
-          {pAllData.map((item: any, index: number) => (
-            <li
-              key={index}
-              className="rounded p-1 px-8"
-              onClick={() => handlePatentById(item["_id"])}
-            >
-              <label
-                className={`mt-2 rounded-lg p-1 pb-1 pt-1 text-sm text-white ${
-                  item && item["Status"] === "Pending Filing"
-                    ? "bg-primary"
-                    : item && item["Status"] === "granted"
-                    ? "bg-success"
-                    : item && item["Status"] === "Filed"
-                    ? "bg-danger"
-                    : "bg-meta-6"
-                }`}
-              ></label>
-              <span className="ml-2">{item.Reference_no}</span>
-            </li>
-          ))}
-        </ul>
-        {/* </Card> */}
+          <ul className="list-none space-y-2 p-0">
+            {pAllData.map((item: any, index: number) => (
+              <li
+                key={index}
+                className="rounded p-1 px-8"
+                onClick={() => handlePatentById(item["_id"])}
+              >
+                <label
+                  className={`mt-2 rounded-lg p-1 pb-1 pt-1 text-sm text-white ${
+                    item && item["Status"] === "Pending Filing"
+                      ? "bg-primary"
+                      : item && item["Status"] === "granted"
+                      ? "bg-success"
+                      : item && item["Status"] === "Filed"
+                      ? "bg-danger"
+                      : "bg-meta-6"
+                  }`}
+                ></label>
+                <span className="ml-2">{item.Reference_no}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
         <div className="grid w-full grid-cols-2 gap-4 bg-white dark:bg-boxdark">
           <div className="bg-white dark:bg-boxdark">
-            <img
-              src={`http://127.0.0.1:8000/${pData?.Patent_Figures}`}
-              alt="Patent Figure"
-            ></img>
+            {pData?.Patent_Figures && (
+              <img
+                src={`http://127.0.0.1:8000/${pData?.Patent_Figures}`}
+                alt="Patent Figure"
+              ></img>
+            )}
           </div>
 
           <div className="bg-white dark:bg-boxdark">

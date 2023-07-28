@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainView from "./mainView";
 import GalleryView from "./galleryView";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setTestCount } from "../../reducers/counterSlice";
+
 const patentView = () => {
   const [selectedOption, setSelectedOption] = useState("mainview");
   const testCount = useSelector((state: any) => state.notification.testCount);
-
+  const dispatch = useDispatch();
   console.log(testCount, "TongMyong--------------");
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
-
+  useEffect(() => {
+    dispatch(setTestCount);
+  }, []);
   return (
     <>
       <div className="mx-auto flex max-w-screen-2xl md:p-1">

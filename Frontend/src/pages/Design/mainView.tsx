@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import { Card } from "@material-tailwind/react";
+import { Card } from "@material-tailwind/react";
 import axios from "axios";
 
 import { base_URL } from "../../constants/config";
@@ -236,42 +236,42 @@ const mainView = () => {
         className="round-xl min-h-100 flex overflow-y-auto pt-3 dark:bg-boxdark"
         style={{ minHeight: "100vh" }}
       >
-        {/* <Card className="w-70 min-h-100 overflow-y-auto shadow-xl dark:bg-boxdark"> */}
-        <div className="items-center justify-center p-2">
-          <button className="flex" onClick={toggleModal}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            Insert Record
-          </button>
-          {isModalOpen && (
-            <ModalView isOpen={isModalOpen} setToggleModal={toggleModal} />
-          )}
-        </div>
+        <Card className="min-h-100 w-70 overflow-y-auto shadow-xl dark:bg-boxdark">
+          <div className="items-center justify-center p-2">
+            <button className="flex" onClick={toggleModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              Insert Record
+            </button>
+            {isModalOpen && (
+              <ModalView isOpen={isModalOpen} setToggleModal={toggleModal} />
+            )}
+          </div>
 
-        <ul className="list-none space-y-2 p-0">
-          {designAllData.map(({ Reference_no, _id }) => (
-            <li
-              key={_id}
-              className="rounded p-2 px-6 py-4"
-              onClick={() => handleDesignById(_id)}
-            >
-              {Reference_no}
-            </li>
-          ))}
-        </ul>
-        {/* </Card> */}
+          <ul className="list-none space-y-2 p-0">
+            {designAllData.map(({ Reference_no, _id }) => (
+              <li
+                key={_id}
+                className="rounded p-2 px-6 py-4"
+                onClick={() => handleDesignById(_id)}
+              >
+                {Reference_no}
+              </li>
+            ))}
+          </ul>
+        </Card>
         <div className="grid w-full grid-cols-2 gap-4 bg-white dark:bg-boxdark">
           <div className="bg-white dark:bg-boxdark">{/* image */}</div>
 
