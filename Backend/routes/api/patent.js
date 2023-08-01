@@ -8,6 +8,7 @@ const {
   updatePatents,
   deletePatents,
   getPatentById,
+  downloadCSV,
 } = require("../../controllers/patents");
 
 const storage = multer.diskStorage({
@@ -41,5 +42,6 @@ router.post("/getPatentsAll", getPatentsAll);
 router.post("/updatePatents/:id", updatePatents);
 router.post("/deletePatents/:id", deletePatents);
 router.post("/getPatentById/:id", getPatentById);
+router.post("/downloadCSV", downloadCSV);
 
 module.exports = router;

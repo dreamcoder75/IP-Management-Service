@@ -1,4 +1,48 @@
 const Patent = require("../models/Patent");
+const fs = require("fs");
+const moment = require("moment");
+const mdq = require("mongo-date-query");
+const json2csv = require("json2csv").parse;
+const path = require("path");
+const { Parser } = require("json2csv");
+const fields = [
+  "Reference_no",
+  "Patent_family",
+  "Application_no",
+  "Jurisdiction",
+  "Invention_title",
+  "Patent_Figures",
+  "Abstract",
+  "Earliest_Priority_Date",
+  "Patent_Application_Type",
+  "Complete_Application_Deadline",
+  "International_Filing_Date",
+  "PCT_Application_No",
+  "Priority_Application",
+  "WIPO_Database",
+  "National_Phase_Deadline",
+  "Convention_Deadline",
+  "Status",
+  "Application_Phase",
+  "Published",
+  "Publication_Date",
+  "Publication_No",
+  "Inventors",
+  "Official_Database",
+  "Applicant",
+  "Applicant_address",
+  "IP_Firm",
+  "IP_Firm_Reference_No",
+  "Address_for_services",
+  "Responsible_Attorney",
+  "Attachments",
+  "Patent_Anniversary",
+  "Next_Renewal",
+  "Deadlines",
+  "Comments",
+  "Costs",
+  "Invoices",
+];
 
 exports.newPatents = async (req, res) => {
   let imagesfilename = [];
@@ -29,7 +73,6 @@ exports.newPatents = async (req, res) => {
     invoicesfilename = [];
   }
 
-  console.log("###############", req.body.IP_Firm);
   const newPatent = new Patent({
     Reference_no: req.body.Reference_no,
     Patent_family: req.body.Patent_family,
@@ -183,4 +226,36 @@ exports.deletePatents = (req, res) => {
       }
     })
     .catch((err) => res.status(401).json({ message: err }));
+};
+
+exports.downloadCSV = async (req, res) => {
+  try {
+    const patents = await Patent.find({ ...req.query });
+
+    const json2csvParser = new Parser({ fields });
+    const csv = json2csvParser.parse(patents);
+
+    const dateTime = moment().format("YYYYMMDDhhmmss");
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "exports",
+      "csv-" + dateTime + ".csv"
+    );
+
+    fs.writeFile(filePath, csv, function (err) {
+      if (err) {
+        return res.json({ err: JSON.stringify(err, null, 2) }).status(500);
+      } else {
+        // setTimeout(function () {
+        //   fs.unlinkSync(filePath); // Delete the file after 30 seconds
+        // }, 30000);
+        return res.json("/exports/csv-" + dateTime + ".csv");
+      }
+    });
+  } catch (err) {
+    console.log("@@@@@@@@@@@", err);
+    return res.status(500).json({ err: JSON.stringify(err, null, 2) });
+  }
 };

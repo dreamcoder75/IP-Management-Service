@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MainView from "./mainView";
 import GalleryView from "./galleryView";
-import { useSelector, useDispatch } from "react-redux";
-import { setTestCount } from "../../reducers/counterSlice";
+import { useSelector } from "react-redux";
+// import axios from "axios";
+// import { base_URL } from "../../constants/config";
+import { CSVLink } from "react-csv";
+import moment from "moment";
 
 const patentView = () => {
   const [selectedOption, setSelectedOption] = useState("mainview");
-  const testCount = useSelector((state: any) => state.notification.testCount);
-  const dispatch = useDispatch();
-  console.log(testCount, "TongMyong--------------");
+
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
-  useEffect(() => {
-    dispatch(setTestCount);
-  }, []);
+
+  const data = useSelector((state: any) => state.Patent.data);
+  const dateTime = moment().format("YYYYMMDDhhmmss");
+  console.log(data);
+
   return (
     <>
       <div className="mx-auto flex max-w-screen-2xl md:p-1">
@@ -136,7 +139,9 @@ const patentView = () => {
                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
               />
             </svg>
-            <button className="text-inherit text-md "> Download CSV </button>
+            <CSVLink data={data} filename={dateTime}>
+              <button className="text-inherit text-md ">Download CSV</button>
+            </CSVLink>
           </div>
         </div>
       </div>

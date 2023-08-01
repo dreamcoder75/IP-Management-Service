@@ -55,8 +55,8 @@ const modalView = (props: any) => {
   const [inputIFDdisabled, setInputIFDdisabled] = useState(true);
   const [inputNPDdisabled, setInputNPDdisabled] = useState(true);
   const [inputNRdisabled, setInputNRdisabled] = useState(false);
-  const [inputPDdisable, setInputPDdisable] = useState(true);
-  const [inputPNdisable, setInputPNdisable] = useState(true);
+  // const [inputPDdisable, setInputPDdisable] = useState(true);
+  // const [inputPNdisable, setInputPNdisable] = useState(true);
   const [inputWIPOdisabled, setInputWIPOdisabled] = useState(true);
   const [inputSNPDdisabled, setInputSNPDdisabled] = useState(true);
 
@@ -153,6 +153,7 @@ const modalView = (props: any) => {
       .then((res) => {
         console.log(res.status);
         if (res.status == 200) {
+          props.getPatentAll();
           Store.addNotification({
             title: "Success",
             message: "New Patent was Created Successfully",
@@ -362,18 +363,22 @@ const modalView = (props: any) => {
                         setInputPCTANdisabled(false);
                         setInputWIPOdisabled(false);
                         setInputSNPDdisabled(false);
+                        setInputNPDdisabled(false);
                       } else {
                         setInputANdisabled(false);
                         setInputIFDdisabled(true);
                         setInputPCTANdisabled(true);
                         setInputWIPOdisabled(true);
                         setInputSNPDdisabled(true);
+                        setInputNPDdisabled(true);
                       }
 
                       if (newValue.value === "Provisional") {
                         setInputPAdisabled(true);
+                        setInputNRdisabled(true);
                       } else {
                         setInputPAdisabled(false);
+                        setInputNRdisabled(false);
                       }
                     }}
                     onCreateOption={handlePatent_Application_TypeCreate}
@@ -590,13 +595,6 @@ const modalView = (props: any) => {
                         ...patentValue,
                         Published: e.target.value,
                       });
-                      // if (e.target.value === "Yes") {
-                      //   setInputPDdisable(false);
-                      //   setInputPNdisable(false);
-                      // } else {
-                      //   setInputPDdisable(true);
-                      //   setInputPNdisable(true);
-                      // }
                     }}
                     value={patentValue?.Published || ""}
                   >

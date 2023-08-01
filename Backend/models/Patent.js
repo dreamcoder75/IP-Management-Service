@@ -94,7 +94,7 @@ const patentSchema = new mongoose.Schema({
   },
 
   Publication_No: {
-    type: Number,
+    type: String,
   },
 
   Inventors: {

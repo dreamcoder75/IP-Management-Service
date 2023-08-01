@@ -1,6 +1,5 @@
-
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "../reducers/counterSlice";
+import Patentreducer from "../reducers/Patentreducer";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import {
@@ -13,10 +12,10 @@ import {
   REGISTER,
 } from "redux-persist";
 const persistConfig = {
-  key: "notification",
+  key: "Patent",
   storage,
 };
-const reducers = combineReducers({ notification: counterSlice });
+const reducers = combineReducers({ Patent: Patentreducer });
 const persistedReducer = persistReducer(persistConfig, reducers);
 export default configureStore({
   reducer: persistedReducer,

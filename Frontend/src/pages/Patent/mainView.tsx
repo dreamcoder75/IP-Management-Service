@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
 import { Card } from "@material-tailwind/react";
 import axios from "axios";
+import { Carousel } from "react-responsive-carousel";
+import { useDispatch } from "react-redux";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 import { base_URL } from "../../constants/config";
 import ModalView from "./modalView";
 import moment from "moment";
+import { setPatentData } from "../../reducers/Patentreducer";
 
 const mainView = () => {
   const [pAllData, setPAllData] = useState<any>([]);
   const [pData, setPData] = useState<any>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
 
   const tabContent = [
     {
@@ -314,6 +319,7 @@ const mainView = () => {
       .post(`${base_URL}/patent/getPatentsAll`)
       .then((res) => {
         setPAllData(res.data.data);
+        dispatch(setPatentData(res.data.data));
       })
       .catch((err) => {
         console.log(err);
@@ -358,7 +364,11 @@ const mainView = () => {
               Insert Record
             </span>
             {isModalOpen && (
-              <ModalView isOpen={isModalOpen} setToggleModal={toggleModal} />
+              <ModalView
+                isOpen={isModalOpen}
+                setToggleModal={toggleModal}
+                getPatentAll={getPatentAll}
+              />
             )}
           </div>
 
@@ -386,13 +396,22 @@ const mainView = () => {
           </ul>
         </Card>
         <div className="grid w-full grid-cols-2 gap-4 bg-white dark:bg-boxdark">
-          <div className="bg-white dark:bg-boxdark">
-            {pData?.Patent_Figures && (
-              <img
-                src={`http://127.0.0.1:8000/${pData?.Patent_Figures}`}
-                alt="Patent Figure"
-              ></img>
-            )}
+          <div className="slide-container containerSlide bg-white dark:bg-boxdark">
+            <Carousel>
+              {pData?.Patent_Figures && pData.Patent_Figures.length > 0 ? (
+                pData.Patent_Figures.map((item: any, index: any) => (
+                  <div key={index}>
+                    <img
+                      style={{ width: "100%" }}
+                      src={`http://127.0.0.1:8000/${item}`}
+                    />
+                    <h2>{""}</h2>
+                  </div>
+                ))
+              ) : (
+                <img style={{ width: "100%" }} alt="No Images" />
+              )}
+            </Carousel>
           </div>
 
           <div className="bg-white dark:bg-boxdark">
