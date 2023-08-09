@@ -4,7 +4,7 @@ import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import { useDispatch } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-// import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 import { base_URL } from "../../constants/config";
 import ModalView from "./modalView";
@@ -289,12 +289,13 @@ const mainView = () => {
       content: (
         <div>
           <div className="text-md mt-4 font-bold">Attachments</div>
-          <label className="mt-2 text-sm">{pData?.Patent_Figures || "-"}</label>
+          {/* <label className="mt-2 text-sm">{pData?.Patent_Figures || "-"}</label> */}
           {/* <DocViewer
                     documents={docs}
                     activeDocument={activeDocument}
                     onDocumentChange={handleDocumentChange}
                 /> */}
+          <div className="text-md mt-4 font-bold">Invoices</div>
         </div>
       ),
     },
@@ -405,11 +406,13 @@ const mainView = () => {
                       style={{ width: "100%" }}
                       src={`http://127.0.0.1:8000/${item}`}
                     />
-                    <h2>{""}</h2>
                   </div>
                 ))
               ) : (
-                <img style={{ width: "100%" }} alt="No Images" />
+                <img
+                  src="https://www.freeiconspng.com/uploads/no-image-icon-6.png"
+                  className=" scale-50"
+                />
               )}
             </Carousel>
           </div>

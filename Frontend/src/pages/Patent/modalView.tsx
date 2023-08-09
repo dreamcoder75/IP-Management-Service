@@ -36,7 +36,7 @@ const defaultPatentApptypeOptions = [
 const defaultIPfirmOptions = [createOption("IP Australia")];
 
 const modalView = (props: any) => {
-  const [patentValue, setPatentValue] = useState<any>();
+  const [patentValue, setPatentValue] = useState<any>({});
   const [patentfamilyOptions, setPatentfamilyOptions] = useState(
     defaultPatentfamilyOptions
   );
@@ -334,14 +334,21 @@ const modalView = (props: any) => {
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     onChange={(e) => {
                       var newDate = new Date(e.target.value);
-                      newDate.setMonth(newDate.getMonth() + 12);
+                      console.log(
+                        "*(******",
+                        moment(newDate).format("YYYY-MM-DD")
+                      );
+                      var newDate1 = newDate.setMonth(newDate.getMonth() + 12);
+
                       setPatentValue({
                         ...patentValue,
                         Earliest_Priority_Date: e.target.value,
                         Complete_Application_Deadline:
-                          moment(newDate).format("YYYY-MM-DD"),
+                          moment(newDate1).format("YYYY-MM-DD"),
                         Convention_Deadline:
-                          moment(newDate).format("YYYY-MM-DD"),
+                          moment(newDate1).format("YYYY-MM-DD"),
+                        // National_Phase_Deadline:
+                        //   moment(newDate2).format("YYYY-MM-DD"),
                       });
                     }}
                     value={patentValue?.Earliest_Priority_Date || ""}
@@ -353,10 +360,8 @@ const modalView = (props: any) => {
                   <CreatableSelect
                     options={patentApptypeOptions}
                     onChange={(newValue: any) => {
-                      setPatentValue({
-                        ...patentValue,
-                        Patent_Application_Type: newValue.value,
-                      });
+                      var EPD = new Date(patentValue?.Earliest_Priority_Date);
+                      EPD.setMonth(EPD.getMonth() + 30);
                       if (newValue.value === "PCT") {
                         setInputANdisabled(true);
                         setInputIFDdisabled(false);
@@ -364,6 +369,12 @@ const modalView = (props: any) => {
                         setInputWIPOdisabled(false);
                         setInputSNPDdisabled(false);
                         setInputNPDdisabled(false);
+                        setPatentValue({
+                          ...patentValue,
+                          National_Phase_Deadline:
+                            moment(EPD).format("YYYY-MM-DD"),
+                          Patent_Application_Type: newValue.value,
+                        });
                       } else {
                         setInputANdisabled(false);
                         setInputIFDdisabled(true);
@@ -371,6 +382,11 @@ const modalView = (props: any) => {
                         setInputWIPOdisabled(true);
                         setInputSNPDdisabled(true);
                         setInputNPDdisabled(true);
+                        setPatentValue({
+                          ...patentValue,
+                          Patent_Application_Type: newValue.value,
+                          National_Phase_Deadline: "",
+                        });
                       }
 
                       if (newValue.value === "Provisional") {
@@ -419,9 +435,15 @@ const modalView = (props: any) => {
                     className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     disabled={inputIFDdisabled}
                     onChange={(e) => {
+                      var IFD = new Date(e.target.value);
+                      var IFD1 = new Date(e.target.value);
+                      IFD.setMonth(IFD.getMonth() + 12);
+                      IFD1.setFullYear(IFD1.getFullYear() + 4);
                       setPatentValue({
                         ...patentValue,
                         International_Filing_Date: e.target.value,
+                        Patent_Anniversary: moment(IFD).format("YYYY-MM-DD"),
+                        Next_Renewal: moment(IFD1).format("YYYY-MM-DD"),
                       });
                     }}
                     value={patentValue?.International_Filing_Date || ""}
@@ -499,20 +521,20 @@ const modalView = (props: any) => {
                       defaultValue={"30"}
                       disabled={inputSNPDdisabled}
                       onChange={(e) => {
-                        var NPD = new Date(patentValue?.Earliest_Priority_Date);
+                        var EPD = new Date(patentValue?.Earliest_Priority_Date);
                         if (e.target.value === "30") {
-                          NPD.setMonth(NPD.getMonth() + 30);
+                          EPD.setMonth(EPD.getMonth() + 30);
                           setPatentValue({
                             ...patentValue,
                             National_Phase_Deadline:
-                              moment(NPD).format("YYYY-MM-DD"),
+                              moment(EPD).format("YYYY-MM-DD"),
                           });
                         } else {
-                          NPD.setMonth(NPD.getMonth() + 31);
+                          EPD.setMonth(EPD.getMonth() + 31);
                           setPatentValue({
                             ...patentValue,
                             National_Phase_Deadline:
-                              moment(NPD).format("YYYY-MM-DD"),
+                              moment(EPD).format("YYYY-MM-DD"),
                           });
                         }
                       }}
@@ -792,7 +814,6 @@ const modalView = (props: any) => {
                         const selectedValue = parseInt(e.target.value, 10);
                         const monthsToAdd = selectedValue * 12;
                         PA.setMonth(PA.getMonth() + monthsToAdd);
-                        console.log("#$^$%0", PA);
                         setPatentValue({
                           ...patentValue,
                           Patent_Anniversary_Period: e.target.value,
